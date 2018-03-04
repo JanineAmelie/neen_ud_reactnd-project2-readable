@@ -72,6 +72,7 @@
     "react/self-closing-comp": 0,
     "require-yield": 0,
     "import/no-webpack-loader-syntax": 0,
-    "no-shadow": "off"
+    "no-shadow": "off",
+    "react/require-default-props": 0,
   }
 }
