@@ -1,4 +1,4 @@
-import produce from 'immer';
+// import produce from 'immer';
 import { TEST_ACTION } from './constants';
 
 //  initial state structure the way I like it.
@@ -25,23 +25,27 @@ const AppState = {
 /*  eslint-disable consistent-return */
 /*  eslint-disable no-unused-vars */
 /*  eslint-disable default-case */
-const appReducer1 = (state = AppState, action) => {
-  produce((state, draft) => {
-    switch (action.type) {
-      case TEST_ACTION:
-        draft.testItem = action.payload;
-        break;
-    }
-  });
-};
+// const appReducer1 = (state = AppState, action) => {
+//   produce((state, draft) => {
+//     switch (action.type) {
+//       case TEST_ACTION:
+//         draft.testItem = action.payload;
+//         break;
+//     }
+//   });
+// };
 
 //  Function implementation
 // Pass in default state structure. WORKS!
 function appReducer2(state = AppState, action) {
   switch (action.type) {
+    case TEST_ACTION:
+      const temp = Object.assign({}, AppState);
+      temp.testItem = action.payload;
+      return temp;
     default:
       return state;
   }
 }
 
-export default appReducer1;
+export default appReducer2;

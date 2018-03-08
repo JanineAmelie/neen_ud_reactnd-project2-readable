@@ -1,32 +1,32 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
-import logo from '../../logo.svg';
-import './App.css';
+import Categories from '../../components/categories';
 
 import { initialTest } from './actions';
+import HeaderTop from '../../components/headerTop/index';
+import ListView from '../ListView/index';
+import DetailView from '../DetailView/index';
 
+// @TODO: styled components classnames
 class App extends PureComponent { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
     console.log('foo:', this.props.testItem);
   }
-  handleClick(e) {
-    console.log('yay:', e.target.id);
-    this.props.testDispatch(e.target.id);
+  handleChange(e) {
+    console.log('yay:', e.target.value);
+    this.props.testDispatch(e.target.value);
   }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">{this.props.testItem}</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <button id="testBtn" onClick={(e) => this.handleClick(e)}> ClickMe to fire an action</button>
-      </div>
+      <Wrapper className="App">
+        <Categories />
+        <HeaderTop />
+         <ListView />
+        {/* <DetailView />  */}
+      </Wrapper>
     );
   }
 }
@@ -50,3 +50,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+const Wrapper = styled.div`
+  width: 100%;
+  max-width: 1024px;
+  display: block;
+  position: relative;
+  margin: 0 auto;
+`;
+
