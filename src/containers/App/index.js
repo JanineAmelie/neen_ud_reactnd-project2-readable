@@ -8,24 +8,23 @@ import Categories from '../../components/categories';
 import { initialTest } from './actions';
 import HeaderTop from '../../components/headerTop/index';
 import ListView from '../ListView/index';
-import DetailView from '../DetailView/index';
+import DebugBar from '../../components/debugBar/index';
+// import DetailView from '../DetailView/index';
 
 // @TODO: styled components classnames
 class App extends PureComponent { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
     console.log('foo:', this.props.testItem);
   }
-  handleChange(e) {
-    console.log('yay:', e.target.value);
-    this.props.testDispatch(e.target.value);
-  }
+
   render() {
     return (
       <Wrapper className="App">
+        <DebugBar />
         <Categories />
         <HeaderTop />
          <ListView />
-        {/* <DetailView />  */}
+         {/*<DetailView />*/}
       </Wrapper>
     );
   }
@@ -33,7 +32,6 @@ class App extends PureComponent { // eslint-disable-line react/prefer-stateless-
 
 App.propTypes = {
   testItem: PropTypes.string,
-  testDispatch: PropTypes.func,
 };
 
 // (state, props)

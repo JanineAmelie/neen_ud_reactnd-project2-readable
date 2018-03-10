@@ -1,8 +1,8 @@
-// import produce from 'immer';
+import produce from 'immer';
 import { TEST_ACTION } from './constants';
 
 //  initial state structure the way I like it.
-const AppState = {
+const appInitialState = {
   testItem: '',
   testBool: false,
   testArray: ['item1', 'item2', 'item3'],
@@ -25,27 +25,33 @@ const AppState = {
 /*  eslint-disable consistent-return */
 /*  eslint-disable no-unused-vars */
 /*  eslint-disable default-case */
-// const appReducer1 = (state = AppState, action) => {
-//   produce((state, draft) => {
-//     switch (action.type) {
-//       case TEST_ACTION:
-//         draft.testItem = action.payload;
-//         break;
-//     }
-//   });
-// };
+
+
+const appReducer1 = produce((draft, action) => {
+  if (!draft) {
+    return appInitialState;
+  }
+
+  switch (action.type) {
+    case TEST_ACTION:
+      draft.testBool = !draft.testBool;
+      break;
+    default:
+      return draft;
+  }
+});
 
 //  Function implementation
 // Pass in default state structure. WORKS!
-function appReducer2(state = AppState, action) {
-  switch (action.type) {
-    case TEST_ACTION:
-      const temp = Object.assign({}, AppState);
-      temp.testItem = action.payload;
-      return temp;
-    default:
-      return state;
-  }
-}
+// function appReducer2(state = AppState, action) {
+//   switch (action.type) {
+//     case TEST_ACTION:
+//       const temp = Object.assign({}, AppState);
+//       temp.testItem = action.payload;
+//       return temp;
+//     default:
+//       return state;
+//   }
+// }
 
-export default appReducer2;
+export default appReducer1;
