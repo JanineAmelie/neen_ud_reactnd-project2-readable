@@ -13,16 +13,20 @@ const headers = {
   Authorization: 'neen-authorized',
   'Content-Type': 'application/json',
 };
+//
+// export const getAllPosts = () => (
+//   fetch(
+//     `${api}/posts`,
+//     { headers }
+//   )
+// );
 
-export const getAllPosts = () => {
+export const getAllPosts = () => (
   fetch(
     `${api}/posts`,
     { headers }
   )
-    .then((res) => res.json())
-    .then((data) => console.log(data));
-};
-
+);
 //  export const fetchTodos = () => fetch('/api/todos');
 
 export const getAllCategories = () => (

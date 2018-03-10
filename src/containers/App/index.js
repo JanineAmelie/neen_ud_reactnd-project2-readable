@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import Categories from '../../components/categories';
 
 import { fetchInitialCategories } from './actions';
+import { fetchInitialPosts } from '../ListView/actions';
+
 import ListView from '../ListView/index';
 import DebugBar from '../../components/debugBar/index';
 // import DetailView from '../DetailView/index';
@@ -15,6 +17,7 @@ class App extends PureComponent { // eslint-disable-line react/prefer-stateless-
   componentDidMount() {
     if (!this.props.categoryNames.length > 0) {
       this.props.fetchInitialCategories();
+      this.props.fetchInitialPosts();
     }
   }
 
@@ -23,8 +26,8 @@ class App extends PureComponent { // eslint-disable-line react/prefer-stateless-
       <Wrapper className="App">
         <DebugBar />
         {this.props.categoryNames.length > 0 && <Categories categories={this.props.categoryNames} /> }
-         <ListView />
-         {/*<DetailView />*/}
+        <ListView />
+        {/* <DetailView />  */}
       </Wrapper>
     );
   }
@@ -33,19 +36,21 @@ class App extends PureComponent { // eslint-disable-line react/prefer-stateless-
 App.propTypes = {
   categoryNames: PropTypes.array,
   fetchInitialCategories: PropTypes.func.isRequired,
+  fetchInitialPosts: PropTypes.func.isRequired,
 };
 
 // (state, props)
 function mapStateToProps(state) {
   return {
     // categoryNames: state.appReducer.categories.map((item) => item.name),
-    categoryNames: state.appReducer.categories,
+    categoryNames: state.app.categories,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     fetchInitialCategories: () => dispatch(fetchInitialCategories()),
+    fetchInitialPosts: () => dispatch(fetchInitialPosts()),
   };
 }
 

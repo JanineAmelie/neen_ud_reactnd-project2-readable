@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import appReducer from './containers/App/reducer';
-
+import app from './containers/App/reducer';
+import posts from './containers/ListView/reducer';
 //  user reducer
 //  posts reducer
 //  modal reducer
@@ -8,5 +8,6 @@ import appReducer from './containers/App/reducer';
 //  loading reducer
 
 export default combineReducers({
-  appReducer,
+  app,
+  posts,
 });

@@ -19,7 +19,7 @@ const headers = {
 };
 
 
-export const votePost = (postId, type) => {
+export const votePost = (postId, type) => (
   fetch(
     `${api}/posts/${postId}`,
     {
@@ -30,9 +30,7 @@ export const votePost = (postId, type) => {
       }),
     }
   )
-    .then((res) => res.json())
-    .then((data) => console.log(data));
-};
+);
 
 
 export const voteComment = (commentId, type) => {

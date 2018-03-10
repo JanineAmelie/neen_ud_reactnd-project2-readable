@@ -21,12 +21,11 @@ import {
 } from '../../services/delAPIs';
 
 const nanoid = require('nanoid');
+function randomNumber() { return Math.floor(Math.random()* (999 - 100 + 1) + 100); }
 
-const dummyAuthor = `Author[${nanoid()}]`;
-const dummyTitle =  `TITLE #[${nanoid()}]`;
-const dummyBodyText = `[${nanoid()}]thisIsbodyText`;
+
 const categories = ['react', 'redux', 'udacity'];
-const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+function randomCategory() { return categories[Math.floor(Math.random() * categories.length)] }
 //  @TODO: delete methods not working properly? they dont set the flag to true or false... they actually delete it?
 const DebugBar = () => (
   <div className="categories">
@@ -47,8 +46,8 @@ const DebugBar = () => (
     <button onClick={() => voteComment('894tuq4ut84ut8v4t8wun89g', 'downVote')} > downvoteComment </button>
     <button onClick={() => getSingleCommentDetails('8tu4bsun805n8un48ve89')} > getSingleCommentDetails </button>
 
-    <button onClick={() => addNewCommentToPost('8xf0y6ziyjabvozdd253nd', 'theSkull', dummyBodyText)} > add comment to post</button>
-    <button onClick={() => addNewPost(dummyTitle, dummyBodyText, dummyAuthor, randomCategory)}> Submit a new post </button>
+    <button onClick={() => addNewCommentToPost('8xf0y6ziyjabvozdd253nd', 'theSkull', `[${randomNumber()}]thisIsbodyText`)} > add comment to post</button>
+    <button onClick={() => addNewPost(`TITLE #[${randomNumber()}]`, `[${randomNumber()}]thisIsbodyText`, `user[${randomNumber()}]`, randomCategory())}> Submit a new post </button>
 
     <button onClick={() => deleteComment('w0JPtThrxKBErzujoXt8e')}> Delete a comment </button>
     <button onClick={() => deletePost('8xf0y6ziyjabvozdd253nd')}> Delete a Post </button>

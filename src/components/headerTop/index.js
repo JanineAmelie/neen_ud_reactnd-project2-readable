@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import RaisedButton from 'material-ui/RaisedButton';
 import AddIcon from 'material-ui/svg-icons/content/add-box';
@@ -17,7 +17,7 @@ const styles = {
     maxWidth: '125px',
   },
 };
-const HeaderTop = () => (
+const HeaderTop = ({ currentCategory }) => (
   <Wrapper>
     <AppHeader className="header">
       <div className="clear-it">
@@ -25,7 +25,7 @@ const HeaderTop = () => (
           <img alt="header-pic" src={CuteDog} />
         </BannerContainer>
         <Title>/u/dacity</Title>
-        <SubTitle> category </SubTitle>
+        <SubTitle> {currentCategory} </SubTitle>
       </div>
       <hr style={styles.hr} className="clear-it" />
       <br />
@@ -47,6 +47,7 @@ HeaderTop.defaultProps = {
 };
 
 HeaderTop.propTypes = {
+  currentCategory: PropTypes.string.isRequired,
 };
 
 export default HeaderTop;

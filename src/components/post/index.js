@@ -1,40 +1,64 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import IconButton from 'material-ui/IconButton';
 import Delete from 'material-ui/svg-icons/action/delete';
 import Edit from 'material-ui/svg-icons/editor/mode-edit';
+import moment from 'moment';
+
 import VotingComponent from '../votingComponent/index';
 
-const Post = () => (
-  <PostsWrapper>
-    <SubWrapper>
-      <VotingComponent />
-      <PostContent>
-        <Main>
-          <PostTitle className="clear-it"> This is a post</PostTitle>
-          <SubTitle className="clear-it"> Submitted 1 day ago by <strong>user</strong></SubTitle>
-          <CommentsSpan className="clear-it">
-            [100 Comments]
-          </CommentsSpan>
-        </Main>
-        <Actions>
-          <IconButton tooltip="Edit" >
-            <Edit />
-          </IconButton>
-          <IconButton tooltip="delete" >
-            <Delete />
-          </IconButton>
-        </Actions>
-      </PostContent>
-    </SubWrapper>
-  </PostsWrapper>
-);
+// @TODO: emmet
+const Post = ({
+  title,
+  timestamp,
+  author,
+  category,
+  commentCount,
+  voteScore,
+  voteHandler,
+  postId,
+}) => {
+  const momentObj = moment(timestamp);
 
-Post.defaultProps = {
-};
+  return (
+    <PostsWrapper>
+      <SubWrapper>
+        <VotingComponent voteId={postId} voteHandler={voteHandler} voteScore={voteScore} />
+        <PostContent>
+          <Main>
+            <PostTitle className="clear-it"> {title} </PostTitle>
+            <SubTitle className="clear-it">
+              Submitted {momentObj.fromNow()} by &nbsp;
+              <strong>{author}</strong> in &nbsp;
+              <a alt="category" href={`/${category}`}>{category}</a>
+            </SubTitle>
+            <CommentsSpan className="clear-it">
+              [{commentCount} Comment(s)]
+            </CommentsSpan>
+          </Main>
+          <Actions>
+            <IconButton tooltip="Edit" >
+              <Edit />
+            </IconButton>
+            <IconButton tooltip="delete" >
+              <Delete />
+            </IconButton>
+          </Actions>
+        </PostContent>
+      </SubWrapper>
+    </PostsWrapper>
+)};
 
 Post.propTypes = {
+  title: PropTypes.string.isRequired,
+  timestamp: PropTypes.number.isRequired,
+  author: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
+  commentCount: PropTypes.number.isRequired,
+  voteScore: PropTypes.number.isRequired,
+  voteHandler: PropTypes.func.isRequired,
+  postId: PropTypes.string.isRequired,
 };
 
 export default Post;

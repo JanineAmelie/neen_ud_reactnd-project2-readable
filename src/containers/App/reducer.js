@@ -4,6 +4,7 @@ import { RECEIVE_CATEGORIES } from './constants';
 //  initial state structure the way I like it.
 const appInitialState = {
   categories: [],
+  currentCategory: 'all',
 };
 
 /*  disable rules in eslint to accomodate immer */
@@ -13,7 +14,7 @@ const appInitialState = {
 /*  eslint-disable default-case */
 
 
-const appReducer1 = produce((draft, action) => {
+const app = produce((draft, action) => {
   if (!draft) {
     return appInitialState;
   }
@@ -40,4 +41,4 @@ const appReducer1 = produce((draft, action) => {
 //   }
 // }
 
-export default appReducer1;
+export default app;

@@ -1,23 +1,24 @@
 import React, { PureComponent } from 'react';
-// import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Post from '../../components/post/index';
 import HeaderTop from '../../components/headerTop/index';
+import { updatePostScore } from './actions';
+
 
 // @TODO: styled components classnames
 class ListView extends PureComponent { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
-    console.log('this is the list view');
   }
 
   render() {
     return (
       <Wrapper className="List-View">
-        <HeaderTop />
+        <HeaderTop currentCategory={this.props.currentCategory} />
         <SelectionWrapper>
           <SelectField
             floatingLabelText="Filter"
@@ -34,11 +35,20 @@ class ListView extends PureComponent { // eslint-disable-line react/prefer-state
         </SelectionWrapper>
         <hr />
         <Content>
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
+          {this.props.posts.length > 0 && this.props.posts.map((post) => (
+            <Post
+              voteHandler={this.props.updatePostScore}
+              key={post.id}
+              postId={post.id}
+              title={post.title}
+              timestamp={post.timestamp}
+              author={post.author}
+              category={post.category}
+              commentCount={post.commentCount}
+              voteScore={post.voteScore}
+
+            />
+          ))}
         </Content>
       </Wrapper>
     );
@@ -46,22 +56,27 @@ class ListView extends PureComponent { // eslint-disable-line react/prefer-state
 }
 
 ListView.propTypes = {
+  currentCategory: PropTypes.string.isRequired,
+  posts: PropTypes.array,
+  updatePostScore: PropTypes.func.isRequired,
 };
-
 // (state, props)
-// function mapStateToProps(state) {
-//   return {
-//   };
-// }
-//
-// function mapDispatchToProps(dispatch) {
-//   return {
-//   };
-// }
+function mapStateToProps(state) {
+  return {
+    currentCategory: state.app.currentCategory,
+    posts: state.posts.posts,
+  };
+}
 
-// export default connect(mapStateToProps, mapDispatchToProps)(ListView);
+function mapDispatchToProps(dispatch) {
+  return {
+    updatePostScore: (postId, upOrDown) => dispatch(updatePostScore(postId, upOrDown)),
+  };
+}
 
-export default ListView;
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListView);
+
 
 const Wrapper = styled.div`
   width: 100%;
