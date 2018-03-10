@@ -10,7 +10,7 @@ const headers = {
 export const editComment = (commentId, timeStamp, newText) => {
   const newData = {
     timestamp: timeStamp,
-    body: `${newText}`,
+    body: newText,
   };
 
   fetch(

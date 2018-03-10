@@ -23,15 +23,14 @@ export const getAllPosts = () => {
     .then((data) => console.log(data));
 };
 
+//  export const fetchTodos = () => fetch('/api/todos');
 
-export const getAllCategories = () => {
+export const getAllCategories = () => (
   fetch(
     `${api}/categories`,
     { headers }
   )
-    .then((res) => res.json())
-    .then((data) => console.log(data.categories));
-};
+);
 
 export const getAllCategoryPosts = (category) => {
   fetch(
@@ -39,7 +38,7 @@ export const getAllCategoryPosts = (category) => {
     { headers }
   )
     .then((res) => res.json())
-    .then((data) => console.log(data));
+    .then((data) => console.log(data.categories));
 };
 
 export const getSinglePost = (postId) => {

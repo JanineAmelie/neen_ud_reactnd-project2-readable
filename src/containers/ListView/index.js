@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Post from '../../components/post/index';
+import HeaderTop from '../../components/headerTop/index';
 
 // @TODO: styled components classnames
 class ListView extends PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -16,6 +17,7 @@ class ListView extends PureComponent { // eslint-disable-line react/prefer-state
   render() {
     return (
       <Wrapper className="List-View">
+        <HeaderTop />
         <SelectionWrapper>
           <SelectField
             floatingLabelText="Filter"

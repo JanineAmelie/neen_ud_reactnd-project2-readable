@@ -55,10 +55,10 @@ export const addNewPost = (title, body, author, category) => {
     id: nanoid(),
     timestamp: Date.now(),
 
-    title: `${title}`,
-    body: `${body}`,
-    author: `${author}`,
-    category: `${category}`,
+    title: title,
+    body: body,
+    author: author,
+    category: category,
   };
 
   fetch(
@@ -74,16 +74,18 @@ export const addNewPost = (title, body, author, category) => {
 };
 
 
-export const addNewCommentToPost = (parentId, author, body) => {
+export const addNewCommentToPost = (theId, theAuthor, body) => {
+  console.log('parentId:', theId, 'author:', theAuthor, 'body:', body)
   const newData = {
+    id: nanoid(),
     timestamp: Date.now(),
-    body: `${body}`,
-    author: `${author}`,
-    parentId: `${parentId}`,
+    body: body,
+    author: theAuthor,
+    parentId: theId,
   };
 
   fetch(
-    `${api}/posts`,
+    `${api}/comments`,
     {
       headers,
       method: 'POST',

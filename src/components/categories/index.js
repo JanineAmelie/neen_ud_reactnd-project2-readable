@@ -1,30 +1,24 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const Categories = ({ categoriesArray }) => (
-  <CategoryWrapper className="categories">
-    [
-    { categoriesArray.map((category) => (
-      <span>
-        <Category alt={category} key={category} href={category}>{category}</Category> /
-      </span>))
-    }
-    ]
-  </CategoryWrapper>
-);
+const Categories = (props) => {
+  const categoriesJSX = props.categories.map((category, index) => (
+    <span key={index}>
+      <Category alt={category.name} href={category.name}>{category.name}</Category> /
+    </span>
+  ));
 
-Categories.defaultProps = {
-  categoriesArray: ['react', 'redux', 'udacity', 'foo,', 'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur',
-    'adipiscing', 'elit', 'curabitur', 'vel', 'hendrerit', 'libero',
-    'eleifend', 'blandit', 'nunc', 'ornare', 'odio', 'ut',
-    'orci', 'gravida', 'imperdiet', 'nullam', 'purus', 'lacinia',
-    'a', 'pretium', 'quis', 'congue', 'praesent', 'sagittis',
-    'laoreet', 'auctor', 'mauris'],
+  return (
+    <CategoryWrapper className="categories">
+      [{categoriesJSX}]
+    </CategoryWrapper>
+  );
 };
 
 Categories.propTypes = {
-  categoriesArray: PropTypes.array,
+  categories: PropTypes.array.isRequired,
 };
 
 export default Categories;
@@ -38,6 +32,7 @@ const CategoryWrapper = styled.div`
   width: 100%;
   flex-wrap: wrap;
   margin-bottom: 16px;
+  text-align: center;
 `;
 
 const Category = styled.a`

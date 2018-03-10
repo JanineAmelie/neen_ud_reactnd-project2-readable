@@ -1,23 +1,9 @@
 import produce from 'immer';
-import { TEST_ACTION } from './constants';
+import { RECEIVE_CATEGORIES } from './constants';
 
 //  initial state structure the way I like it.
 const appInitialState = {
-  testItem: '',
-  testBool: false,
-  testArray: ['item1', 'item2', 'item3'],
-  testDeepObject: {
-    0: {
-      foo: '',
-      koo: '',
-      yay: [''],
-    },
-    2: {
-      foo: '',
-      koo: '',
-      yay: [''],
-    },
-  },
+  categories: [],
 };
 
 /*  disable rules in eslint to accomodate immer */
@@ -33,8 +19,8 @@ const appReducer1 = produce((draft, action) => {
   }
 
   switch (action.type) {
-    case TEST_ACTION:
-      draft.testBool = !draft.testBool;
+    case RECEIVE_CATEGORIES:
+      draft.categories = action.categories;
       break;
     default:
       return draft;

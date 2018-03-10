@@ -3,17 +3,16 @@ import thunk from 'redux-thunk';
 import rootReducer from './root_reducer';
 
 export default function configureStore() {
-  const logger = (store) => (next) => (action) => {
-    console.group(action.type);
-    console.info('dispatching', action);
-    const result = next(action);
-    console.log('next state', store.getState());
-    console.groupEnd(action.type);
-    return result;
-  };
+  // const logger = (store) => (next) => (action) => {
+  //   console.group(action.type);
+  //   console.info('dispatching', action);
+  //   const result = next(action);
+  //   console.log('next state', store.getState());
+  //   console.groupEnd(action.type);
+  //   return result;
+  // };
 
   const middlewares = [
-    logger,
     thunk,
   ];
 

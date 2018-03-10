@@ -24,9 +24,7 @@ const nanoid = require('nanoid');
 
 const dummyAuthor = `Author[${nanoid()}]`;
 const dummyTitle =  `TITLE #[${nanoid()}]`;
-const dummyBodyText = `[${nanoid()}]Lorem ipsum dolor sit amet, consectetur adipisicing elit.
- Architecto assumenda consequuntur in laudantium molestiae quas quo sint tempora! Eligendi nobis quia repellendus. 
- Autem beatae cumque dolorem eaque obcaecati quia soluta?`;
+const dummyBodyText = `[${nanoid()}]thisIsbodyText`;
 const categories = ['react', 'redux', 'udacity'];
 const randomCategory = categories[Math.floor(Math.random() * categories.length)];
 //  @TODO: delete methods not working properly? they dont set the flag to true or false... they actually delete it?
@@ -49,10 +47,10 @@ const DebugBar = () => (
     <button onClick={() => voteComment('894tuq4ut84ut8v4t8wun89g', 'downVote')} > downvoteComment </button>
     <button onClick={() => getSingleCommentDetails('8tu4bsun805n8un48ve89')} > getSingleCommentDetails </button>
 
-    <button onClick={() => addNewCommentToPost('8xf0y6ziyjabvozdd253nd', dummyAuthor, dummyBodyText)} > add comment to post</button>
+    <button onClick={() => addNewCommentToPost('8xf0y6ziyjabvozdd253nd', 'theSkull', dummyBodyText)} > add comment to post</button>
     <button onClick={() => addNewPost(dummyTitle, dummyBodyText, dummyAuthor, randomCategory)}> Submit a new post </button>
 
-    <button onClick={() => deleteComment('894tuq4ut84ut8v4t8wun89g')}> Delete a comment </button>
+    <button onClick={() => deleteComment('w0JPtThrxKBErzujoXt8e')}> Delete a comment </button>
     <button onClick={() => deletePost('8xf0y6ziyjabvozdd253nd')}> Delete a Post </button>
   </div>
 );
