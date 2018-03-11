@@ -11,9 +11,8 @@ import { fetchInitialPosts } from '../ListView/actions';
 import ListView from '../ListView/index';
 import Modal from '../Modal/index';
 import DebugBar from '../../components/debugBar/index';
-import NoMatch from '../../components/noMatch';
-import DetailView from '../DetailView/index';
-import { Switch, Route } from 'react-router-dom';
+// import NoMatch from '../../components/noMatch';
+// import DetailView from '../DetailView/index';
 
 // @TODO: styled components classnames
 class App extends PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -29,14 +28,7 @@ class App extends PureComponent { // eslint-disable-line react/prefer-stateless-
         <DebugBar />
         {this.props.categoryNames.length > 0 && <Categories categories={this.props.categoryNames} /> }
         <Modal className={this.props.modalIsOpen ? 'modal-open' : 'modal-closed'} />
-
-        {/*<Switch>*/}
-          {/*<Route exact path="/" component={ListView} />*/}
-          {/*<Route path="/:category" component={ListView} />*/}
-          {/*<Route path="/:category/:post_id" component={DetailView} />*/}
-
-          {/*<Route component={NoMatch} />*/}
-        {/*</Switch>*/}
+        <ListView />
       </Wrapper>
     );
   }
