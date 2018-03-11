@@ -20,7 +20,6 @@ import {
   deletePost,
 } from '../../services/delAPIs';
 
-const nanoid = require('nanoid');
 function randomNumber() { return Math.floor(Math.random()* (999 - 100 + 1) + 100); }
 
 

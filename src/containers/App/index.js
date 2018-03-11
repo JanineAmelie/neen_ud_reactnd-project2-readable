@@ -9,8 +9,11 @@ import { fetchInitialCategories } from './actions';
 import { fetchInitialPosts } from '../ListView/actions';
 
 import ListView from '../ListView/index';
+import Modal from '../Modal/index';
 import DebugBar from '../../components/debugBar/index';
-// import DetailView from '../DetailView/index';
+import NoMatch from '../../components/noMatch';
+import DetailView from '../DetailView/index';
+import { Switch, Route } from 'react-router-dom';
 
 // @TODO: styled components classnames
 class App extends PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -20,14 +23,20 @@ class App extends PureComponent { // eslint-disable-line react/prefer-stateless-
       this.props.fetchInitialPosts();
     }
   }
-
   render() {
     return (
-      <Wrapper className="App">
+      <Wrapper>
         <DebugBar />
         {this.props.categoryNames.length > 0 && <Categories categories={this.props.categoryNames} /> }
-        <ListView />
-        {/* <DetailView />  */}
+        <Modal className={this.props.modalIsOpen ? 'modal-open' : 'modal-closed'} />
+
+        {/*<Switch>*/}
+          {/*<Route exact path="/" component={ListView} />*/}
+          {/*<Route path="/:category" component={ListView} />*/}
+          {/*<Route path="/:category/:post_id" component={DetailView} />*/}
+
+          {/*<Route component={NoMatch} />*/}
+        {/*</Switch>*/}
       </Wrapper>
     );
   }
@@ -37,6 +46,9 @@ App.propTypes = {
   categoryNames: PropTypes.array,
   fetchInitialCategories: PropTypes.func.isRequired,
   fetchInitialPosts: PropTypes.func.isRequired,
+  modalIsOpen: PropTypes.bool.isRequired,
+  id: PropTypes.string.isRequired,
+  currentDetail: PropTypes.object.isRequired,
 };
 
 // (state, props)
@@ -44,6 +56,9 @@ function mapStateToProps(state) {
   return {
     // categoryNames: state.appReducer.categories.map((item) => item.name),
     categoryNames: state.app.categories,
+    modalIsOpen: state.modal.modalIsOpen,
+    id: state.detail.id,
+    currentDetail: state.detail.currentDetail,
   };
 }
 
@@ -57,7 +72,6 @@ function mapDispatchToProps(dispatch) {
 export default connect(mapStateToProps, mapDispatchToProps)(App);
 const Wrapper = styled.div`
   width: 100%;
-  max-width: 1024px;
   display: block;
   position: relative;
   margin: 0 auto;

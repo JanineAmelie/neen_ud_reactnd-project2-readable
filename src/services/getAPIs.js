@@ -45,14 +45,13 @@ export const getAllCategoryPosts = (category) => {
     .then((data) => console.log(data.categories));
 };
 
-export const getSinglePost = (postId) => {
+export const getSinglePost = (postId) => (
   fetch(
     `${api}/posts/${postId}`,
     { headers }
   )
     .then((res) => res.json())
-    .then((data) => console.log(data));
-};
+);
 
 export const getSingleCommentDetails = (commentId) => {
   fetch(

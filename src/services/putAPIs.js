@@ -12,15 +12,34 @@ export const editComment = (commentId, timeStamp, newText) => {
     timestamp: timeStamp,
     body: newText,
   };
+  return (
+    fetch(
+      `${api}/comments/${commentId}`,
+      {
+        headers,
+        method: 'PUT',
+        body: JSON.stringify( newData ),
+      }
+    )
+      .then((res) => res.json())
+  );
+};
 
-  fetch(
-    `${api}/comments/${commentId}`,
-    {
-      headers,
-      method: 'POST',
-      body: JSON.stringify( newData ),
-    }
-  )
-    .then((res) => res.json())
-    .then((data) => console.log(data));
+
+export const editPost = (postId, title, body) => {
+  const newData = {
+    title,
+    body,
+  };
+  return (
+    fetch(
+      `${api}/posts/${postId}`,
+      {
+        headers,
+        method: 'PUT',
+        body: JSON.stringify( newData ),
+      }
+    )
+      .then((res) => res.json())
+  );
 };

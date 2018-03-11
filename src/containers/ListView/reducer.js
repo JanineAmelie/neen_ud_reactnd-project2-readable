@@ -4,7 +4,15 @@
 /*  eslint-disable no-unused-vars */
 /*  eslint-disable default-case */
 import produce from 'immer';
-import { RECEIVE_INITIAL_POSTS, RECEIVE_NEW_POST_SCORE } from './constants';
+import {
+  RECEIVE_INITIAL_POSTS,
+  RECEIVE_NEW_POST_SCORE,
+  RECEIVE_DELETED_POST,
+  RECEIVE_NEW_POST,
+  GET_POST_TO_EDIT,
+  REMOVE_POST_TO_EDIT,
+  RECEIVE_EDITED_POST,
+} from './constants';
 
 function postToUpdate(posts, updatedPostId) {
   return posts.findIndex((post) => post.id === updatedPostId);
@@ -12,6 +20,7 @@ function postToUpdate(posts, updatedPostId) {
 
 const postsInitialState = {
   posts: [],
+  currentlyEditingPost: {},
 };
 
 const posts = produce((draft, action) => {
@@ -26,10 +35,22 @@ const posts = produce((draft, action) => {
       draft.posts = action.posts;
       break;
     case RECEIVE_NEW_POST_SCORE:
-      // console.log('REDUCER: update the score here of post:', action.postToEdit, 'with new Score:', action.newScore);
-      // const theElem = draft.posts.findIndex((post) => post.id === action.postToEdit);
-      // draft.posts[draft.posts.findIndex((post) => post.id === action.postToEdit)].voteScore = action.newScore;
       draft.posts[indexOfPostToUpdate].voteScore = action.newScore;
+      break;
+    case RECEIVE_DELETED_POST:
+      draft.posts[indexOfPostToUpdate].deleted = true;
+      break;
+    case RECEIVE_NEW_POST:
+      draft.posts.push(action.payload);
+      break;
+    case GET_POST_TO_EDIT:
+      draft.currentlyEditingPost = draft.posts[indexOfPostToUpdate];
+      break;
+    case RECEIVE_EDITED_POST:
+      draft.posts[indexOfPostToUpdate] = action.payload;
+      break;
+    case REMOVE_POST_TO_EDIT:
+      draft.currentlyEditingPost = {};
       break;
     default:
       return draft;
@@ -37,4 +58,8 @@ const posts = produce((draft, action) => {
 });
 
 export default posts;
+
+// console.log('REDUCER: update the score here of post:', action.postToEdit, 'with new Score:', action.newScore);
+// const theElem = draft.posts.findIndex((post) => post.id === action.postToEdit);
+// draft.posts[draft.posts.findIndex((post) => post.id === action.postToEdit)].voteScore = action.newScore;
 

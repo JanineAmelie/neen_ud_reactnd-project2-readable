@@ -6,13 +6,17 @@ import styled from 'styled-components';
 const Categories = (props) => {
   const categoriesJSX = props.categories.map((category, index) => (
     <span key={index}>
-      <Category alt={category.name} href={category.name}>{category.name}</Category> /
+       &nbsp; / <Category alt={category.name} href={category.name}>{category.name}</Category>&nbsp;
     </span>
   ));
-
+  const allItemJsx = (
+    <span key="allItem">
+      <Category alt="All Category" href="/all">All</Category>
+    </span>
+  );
   return (
     <CategoryWrapper className="categories">
-      [{categoriesJSX}]
+      [{allItemJsx}{categoriesJSX}]
     </CategoryWrapper>
   );
 };

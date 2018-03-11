@@ -10,9 +10,9 @@ const VotingComponent = ({ voteId, voteHandler, voteScore }) => {
 
   return (
     <VoteWrapper>
-      <Vote onClick={handleVoteClick('upVote')} className="clear-it up"> ▲ </Vote>
-      <ScoreSpan className="clear-it"> {voteScore} </ScoreSpan>
-      <Vote onClick={handleVoteClick('downVote')} className="clear-it down"> ▼ </Vote>
+      <VoteUp onClick={handleVoteClick('upVote')} className="clear-it"> ▲ </VoteUp>
+      <span className="clear-it"> {voteScore} </span>
+      <VoteDown onClick={handleVoteClick('downVote')} className="clear-it"> ▼ </VoteDown>
     </VoteWrapper>
   );
 };
@@ -41,6 +41,10 @@ const Vote = styled.span`
   }
 `;
 
-const ScoreSpan = styled.span`
-  
+const VoteUp = styled(Vote)`
+  color: orangered;
+`;
+
+const VoteDown = styled(Vote)`
+  color: #6b6bea;
 `;

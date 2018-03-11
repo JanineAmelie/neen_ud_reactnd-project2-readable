@@ -1,4 +1,4 @@
-import { RECEIVE_CATEGORIES } from './constants';
+import { RECEIVE_CATEGORIES, SET_SORT_METHOD } from './constants';
 import * as getAPI from '../../services/getAPIs';
 
 export const fetchInitialCategories = () => (dispatch) => (
@@ -13,3 +13,7 @@ export const receiveCategories = (categories) => ({
   categories,
 });
 
+export const setSortMethod = (payload) => ({
+  type: SET_SORT_METHOD,
+  payload,
+});

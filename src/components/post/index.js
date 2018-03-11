@@ -8,7 +8,7 @@ import moment from 'moment';
 
 import VotingComponent from '../votingComponent/index';
 
-// @TODO: emmet
+// @TODO: if current route is /detail then setDetailId wont be dispatched
 const Post = ({
   title,
   timestamp,
@@ -18,9 +18,18 @@ const Post = ({
   voteScore,
   voteHandler,
   postId,
+  deletePostHandler,
+  modalToShow,
+  toggleModal,
+  getPostToBeEditedData,
+  setDetailId,
 }) => {
   const momentObj = moment(timestamp);
-
+  const handleEditClick = () => {
+    getPostToBeEditedData(postId);
+    modalToShow('editPostModal');
+    toggleModal();
+  };
   return (
     <PostsWrapper>
       <SubWrapper>
@@ -31,7 +40,13 @@ const Post = ({
             <SubTitle className="clear-it">
               Submitted {momentObj.fromNow()} by &nbsp;
               <strong>{author}</strong> in &nbsp;
-              <a alt="category" href={`/${category}`}>{category}</a>
+              <a
+                onClick={() => setDetailId(postId)}
+                alt="category"
+                href={`/${category}`}
+              >
+                {category}
+              </a>
             </SubTitle>
             <CommentsSpan className="clear-it">
               [{commentCount} Comment(s)]
@@ -39,16 +54,17 @@ const Post = ({
           </Main>
           <Actions>
             <IconButton tooltip="Edit" >
-              <Edit />
+              <Edit onClick={() => handleEditClick()} />
             </IconButton>
             <IconButton tooltip="delete" >
-              <Delete />
+              <Delete onClick={() => deletePostHandler(postId)} />
             </IconButton>
           </Actions>
         </PostContent>
       </SubWrapper>
     </PostsWrapper>
-)};
+  );
+};
 
 Post.propTypes = {
   title: PropTypes.string.isRequired,
@@ -59,6 +75,11 @@ Post.propTypes = {
   voteScore: PropTypes.number.isRequired,
   voteHandler: PropTypes.func.isRequired,
   postId: PropTypes.string.isRequired,
+  deletePostHandler: PropTypes.func.isRequired,
+  modalToShow: PropTypes.func.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  getPostToBeEditedData: PropTypes.func.isRequired,
+  setDetailId: PropTypes.func,
 };
 
 export default Post;

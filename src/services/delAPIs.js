@@ -5,26 +5,33 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-export const deleteComment = (commentId) => {
+export const deleteComment = (commentId) => (
   fetch(
     `${api}/comments/${commentId}`,
     {
       headers,
-      method: 'DELETE',
+      method: 'delete',
     }
   )
     .then((res) => res.json())
-    .then((data) => console.log(data));
-};
+    .then((data) => console.log(data))
+);
 
-export const deletePost = (postId) => {
+export const deletePost = (postId) => (
   fetch(
     `${api}/posts/${postId}`,
     {
+      method: 'delete',
       headers,
-      method: 'DELETE',
     }
   )
-    .then((res) => res.json())
-    .then((data) => console.log(data));
-};
+);
+
+
+export function deleteData(postId) {
+  return fetch(`${api}/posts/${postId}`, {
+    method: 'delete',
+    headers,
+  })
+    .then((response) => response.json());
+}

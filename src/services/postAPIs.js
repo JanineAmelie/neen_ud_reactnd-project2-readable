@@ -5,6 +5,7 @@ const nanoid = require('nanoid'); // @TODO: how to convert to Import statement ?
 const api = 'http://localhost:3001';
 
 // @TODO: Put back dynamic token
+// @TODO: REMOVE ALL BRACKETS YOU'RE RETURNING
 // let token = localStorage.token;
 //
 // if (!token) {
@@ -59,21 +60,22 @@ export const addNewPost = (title, body, author, category) => {
     category: category,
   };
 
-  fetch(
-    `${api}/posts`,
-    {
-      headers,
-      method: 'POST',
-      body: JSON.stringify( newData ),
-    }
-  )
-    .then((res) => res.json())
-    .then((data) => console.log(data));
+  return (
+    fetch(
+      `${api}/posts`,
+      {
+        headers,
+        method: 'POST',
+        body: JSON.stringify( newData ),
+      }
+    )
+      .then((res) => res.json())
+  );
 };
 
 
 export const addNewCommentToPost = (theId, theAuthor, body) => {
-  console.log('parentId:', theId, 'author:', theAuthor, 'body:', body)
+  console.log('parentId:', theId, 'author:', theAuthor, 'body:', body);
   const newData = {
     id: nanoid(),
     timestamp: Date.now(),

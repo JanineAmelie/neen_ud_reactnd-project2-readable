@@ -17,37 +17,46 @@ const styles = {
     maxWidth: '125px',
   },
 };
-const HeaderTop = ({ currentCategory }) => (
-  <Wrapper>
-    <AppHeader className="header">
-      <div className="clear-it">
-        <BannerContainer>
-          <img alt="header-pic" src={CuteDog} />
-        </BannerContainer>
-        <Title>/u/dacity</Title>
-        <SubTitle> {currentCategory} </SubTitle>
-      </div>
-      <hr style={styles.hr} className="clear-it" />
-      <br />
-    </AppHeader>
-    <RaisedButton
-      label="Submit"
-      labelPosition="before"
-      primary
-      icon={<AddIcon />}
-      onClick={(e) => this.handleChange(e)}
-      style={styles.btn}
-    />
 
-    <hr style={styles.hr} className="clear-it" />
-  </Wrapper>
-);
+const HeaderTop = ({ currentCategory, modalToShow, toggleModal }) =>  {
+  const handleButtonClick = () => {
+    modalToShow('submitPostModal');
+    toggleModal();
+  };
+  return (
+    <Wrapper>
+      <AppHeader className="header">
+        <div className="clear-it">
+          <BannerContainer>
+            <img alt="header-pic" src={CuteDog} />
+          </BannerContainer>
+          <Title>/u/dacity</Title>
+          <SubTitle> {currentCategory} </SubTitle>
+        </div>
+        <hr style={styles.hr} className="clear-it" />
+        <br />
+      </AppHeader>
+      <RaisedButton
+        label="Submit"
+        labelPosition="before"
+        primary
+        icon={<AddIcon />}
+        onClick={() => handleButtonClick()}
+        style={styles.btn}
+      />
+
+      <hr style={styles.hr} className="clear-it" />
+    </Wrapper>
+  )
+};
 
 HeaderTop.defaultProps = {
 };
 
 HeaderTop.propTypes = {
   currentCategory: PropTypes.string.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  modalToShow: PropTypes.func.isRequired,
 };
 
 export default HeaderTop;

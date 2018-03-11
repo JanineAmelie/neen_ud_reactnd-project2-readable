@@ -1,10 +1,11 @@
 import produce from 'immer';
-import { RECEIVE_CATEGORIES } from './constants';
+import { RECEIVE_CATEGORIES, SET_SORT_METHOD } from './constants';
 
 //  initial state structure the way I like it.
 const appInitialState = {
   categories: [],
   currentCategory: 'all',
+  sortMethod: 'timestamp', // voteScore
 };
 
 /*  disable rules in eslint to accomodate immer */
@@ -20,6 +21,9 @@ const app = produce((draft, action) => {
   }
 
   switch (action.type) {
+    case SET_SORT_METHOD:
+      draft.sortMethod = action.payload;
+      break;
     case RECEIVE_CATEGORIES:
       draft.categories = action.categories;
       break;

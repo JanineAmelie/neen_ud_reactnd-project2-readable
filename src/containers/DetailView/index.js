@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-// import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Post from '../../components/post';
@@ -13,9 +13,23 @@ class DetailView extends PureComponent { // eslint-disable-line react/prefer-sta
 
   render() {
     return (
-      <Wrapper className="List-View">
+      <Wrapper className="Detail-View">
         <Content>
-          <Post />
+          {/*<Post*/}
+            {/*getPostToBeEditedData={this.props.getPostToBeEditedData}*/}
+            {/*modalToShow={this.props.modalToShow}*/}
+            {/*toggleModal={this.props.toggleModal}*/}
+            {/*deletePostHandler={this.props.deletePost}*/}
+            {/*voteHandler={this.props.updatePostScore}*/}
+            {/*key={post.id}*/}
+            {/*postId={post.id}*/}
+            {/*title={post.title}*/}
+            {/*timestamp={post.timestamp}*/}
+            {/*author={post.author}*/}
+            {/*category={post.category}*/}
+            {/*commentCount={post.commentCount}*/}
+            {/*voteScore={post.voteScore}*/}
+          {/*/>*/}
           <PostContent>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias at, autem doloremque dolores eius eveniet
             labore magnam minima, minus molestias optio pariatur, placeat quos repellendus sed sequi tempora tenetur
@@ -36,20 +50,18 @@ class DetailView extends PureComponent { // eslint-disable-line react/prefer-sta
 DetailView.propTypes = {
 };
 
-// (state, props)
-// function mapStateToProps(state) {
-//   return {
-//   };
-// }
-//
-// function mapDispatchToProps(dispatch) {
-//   return {
-//   };
-// }
+function mapStateToProps(state) {
+  return {
+  };
+}
 
-// export default connect(mapStateToProps, mapDispatchToProps)(ListView);
+function mapDispatchToProps(dispatch) {
+  return {
+  };
+}
 
-export default DetailView;
+export default connect(mapStateToProps, mapDispatchToProps)(DetailView);
+
 
 const Wrapper = styled.div`
   width: 100%;
