@@ -28,10 +28,9 @@ const muiTheme = getMuiTheme({
 // @TODO: styled components classnames
 class App extends PureComponent { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
-    // console.log('ownProps', this.props.match.params.category);
     if (!this.props.categoryNames.length > 0) {
       this.props.fetchInitialCategories();
-      this.props.fetchInitialPosts();
+      this.props.fetchPosts();
     }
   }
 
@@ -63,11 +62,9 @@ class App extends PureComponent { // eslint-disable-line react/prefer-stateless-
 App.propTypes = {
   categoryNames: PropTypes.array,
   fetchInitialCategories: PropTypes.func.isRequired,
-  fetchInitialPosts: PropTypes.func.isRequired,
   modalIsOpen: PropTypes.bool.isRequired,
-  id: PropTypes.string.isRequired,
-  currentDetail: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
+  fetchPosts: PropTypes.func.isRequired,
 };
 
 // (state, props)
@@ -76,15 +73,12 @@ function mapStateToProps(state) {
     // categoryNames: state.appReducer.categories.map((item) => item.name),
     categoryNames: state.app.categories,
     modalIsOpen: state.modal.modalIsOpen,
-    id: state.detail.id,
-    currentDetail: state.detail.currentDetail,
   };
 }
-
 function mapDispatchToProps(dispatch) {
   return {
     fetchInitialCategories: () => dispatch(fetchInitialCategories()),
-    fetchInitialPosts: () => dispatch(fetchInitialPosts()),
+    fetchPosts: () => dispatch(fetchInitialPosts()),
   };
 }
 

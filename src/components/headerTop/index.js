@@ -18,7 +18,7 @@ const styles = {
   },
 };
 
-const HeaderTop = ({ currentCategory, modalToShow, toggleModal }) =>  {
+const HeaderTop = ({ currentCategory, modalToShow, toggleModal }) => {
   const handleButtonClick = () => {
     modalToShow('submitPostModal');
     toggleModal();

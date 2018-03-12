@@ -12,6 +12,7 @@ import {
   GET_POST_TO_EDIT,
   REMOVE_POST_TO_EDIT,
   RECEIVE_EDITED_POST,
+  FINISHED_LOADING_POSTS,
 } from './constants';
 
 function postToUpdate(posts, updatedPostId) {
@@ -19,6 +20,7 @@ function postToUpdate(posts, updatedPostId) {
 }
 
 const postsInitialState = {
+  loadingPosts: true,
   posts: [],
   currentlyEditingPost: {},
 };
@@ -51,6 +53,9 @@ const posts = produce((draft, action) => {
       break;
     case REMOVE_POST_TO_EDIT:
       draft.currentlyEditingPost = {};
+      break;
+    case FINISHED_LOADING_POSTS:
+      draft.loadingPosts = false;
       break;
     default:
       return draft;

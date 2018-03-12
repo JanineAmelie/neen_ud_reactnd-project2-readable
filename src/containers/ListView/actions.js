@@ -6,6 +6,7 @@ import {
   RECEIVE_EDITED_POST,
   GET_POST_TO_EDIT,
   REMOVE_POST_TO_EDIT,
+  FINISHED_LOADING_POSTS,
 } from './constants';
 import * as getAPI from '../../services/getAPIs';
 import * as postAPI from '../../services/postAPIs';
@@ -17,7 +18,13 @@ export const fetchInitialPosts = () => (dispatch) => (
     .getAllPosts()
     .then((res) => res.json())
     .then((data) => dispatch(receivePosts(data)))
+    .then(() => dispatch(finishedLoadingPosts()))
 );
+
+export const finishedLoadingPosts = () => ({
+  type: FINISHED_LOADING_POSTS,
+});
+
 
 export const receivePosts = (posts) => ({
   type: RECEIVE_INITIAL_POSTS,

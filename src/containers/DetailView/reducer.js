@@ -1,9 +1,18 @@
 import produce from 'immer';
-import { SET_DETAIL_ID, RECEIVE_DETAIL_POST } from './constants';
+import {
+  RECEIVE_DETAIL_POST,
+  LOADING_DETAIL_COMPLETE,
+  LOADING_COMMENTS_COMPLETE,
+  RECEIVE_COMMENTS,
+  SET_CURRENT_DETAIL_DELETED,
+  RESET_DETAIL_STATE,
+} from './constants';
 
 const detailInitialState = {
-  id: '',
-  currentDetail: {},
+  currentDetail: '',
+  loadingDetail: true,
+  loadingComments: true,
+  comments: [],
 };
 
 /*  disable rules in eslint to accomodate immer */
@@ -19,11 +28,23 @@ const detail = produce((draft, action) => {
   }
 
   switch (action.type) {
-    case SET_DETAIL_ID:
-      draft.id = action.payload;
-      break;
     case RECEIVE_DETAIL_POST:
-      draft.categories = action.categories;
+      draft.currentDetail = action.payload;
+      break;
+    case RECEIVE_COMMENTS:
+      draft.comments = action.payload;
+      break;
+    case LOADING_DETAIL_COMPLETE:
+      draft.loadingDetail = false;
+      break;
+    case LOADING_COMMENTS_COMPLETE:
+      draft.loadingComments = false;
+      break;
+    case SET_CURRENT_DETAIL_DELETED:
+      draft.currentDetail.deleted = true;
+      break;
+    case RESET_DETAIL_STATE:
+      draft = detailInitialState;
       break;
     default:
       return draft;

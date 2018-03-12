@@ -5,3 +5,4 @@ export const RECEIVE_NEW_POST = 'list-view/RECEIVE_NEW_POST';
 export const GET_POST_TO_EDIT = 'list-view/GET_POST_TO_EDIT';
 export const RECEIVE_EDITED_POST = 'list-view/RECEIVE_EDITED_POST';
 export const REMOVE_POST_TO_EDIT = 'list-view/REMOVE_POST_TO_EDIT';
+export const FINISHED_LOADING_POSTS = 'list-view/FINISHED_LOADING_POSTS';

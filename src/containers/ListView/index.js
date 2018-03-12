@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import Post from '../../components/post/index';
 import HeaderTop from '../../components/headerTop/index';
 import { deletePost, getPostToBeEditedData, updatePostScore } from './actions';
@@ -43,8 +43,9 @@ class ListView extends PureComponent { // eslint-disable-line react/prefer-state
   }
 
   render() {
+    // @TODO loading variable
     // show spinner if content doesn't exist yet.
-    if (this.props.categories.length > 0 && this.props.posts.length > 0) {
+    if (this.props.categories.length > 0 && !this.props.loadingPosts) {
       // checks if valid category, if not redirect
       if (!this.isValidCategory(this.props.location.pathname, this.props.categories)) {
         return (
@@ -60,7 +61,7 @@ class ListView extends PureComponent { // eslint-disable-line react/prefer-state
       let posts = [];
       const theCategory = this.currentCategory(this.props.location.pathname);
       if (theCategory === 'all') {
-        posts = this.props.posts;
+        posts = this.props.posts; // eslint-disable-line prefer-destructuring
       } else {
         posts = this.props.posts.filter((post) => post.category === theCategory);
       }
@@ -101,7 +102,11 @@ class ListView extends PureComponent { // eslint-disable-line react/prefer-state
                   voteScore={post.voteScore}
                 />
               ))
-              : <NoPostsLabel> no posts in category: {theCategory} </NoPostsLabel>
+              : (
+                <NoPostsLabel>
+                  { theCategory === 'all' ? 'No posts yet, submit? :-)' : `No posts in category: ${theCategory}`}
+                </NoPostsLabel>
+              )
             }
           </Content>
         </Wrapper>
@@ -112,7 +117,6 @@ class ListView extends PureComponent { // eslint-disable-line react/prefer-state
 }
 
 ListView.propTypes = {
-  currentCategory: PropTypes.string.isRequired,
   posts: PropTypes.array,
   updatePostScore: PropTypes.func.isRequired,
   deletePost: PropTypes.func.isRequired,
@@ -124,6 +128,7 @@ ListView.propTypes = {
   setDetailId: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
   categories: PropTypes.array.isRequired,
+  loadingPosts: PropTypes.bool.isRequired,
 };
 // (state, props)
 
@@ -132,10 +137,10 @@ function mapStateToProps(state) {
   const onlyNonDeletedPosts = state.posts.posts.filter((post) => post.deleted === false);
   const sortedPosts = onlyNonDeletedPosts.sort(utils.dynamicSort(state.app.sortMethod)).reverse();
   return {
-    currentCategory: state.app.currentCategory,
     posts: sortedPosts,
     sortMethod: state.app.sortMethod,
     categories: state.app.categories.map((item) => item.name),
+    loadingPosts: state.posts.loadingPosts,
   };
 }
 
@@ -151,9 +156,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(ListView);
-
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ListView));
 
 const Wrapper = styled.div`
   width: 100%;
