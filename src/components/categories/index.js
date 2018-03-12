@@ -2,16 +2,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
+
+const activeStyle = {
+  fontWeight: 'bold',
+  color: '#800000!important',
+};
 
 const Categories = (props) => {
   const categoriesJSX = props.categories.map((category, index) => (
     <span key={index}>
-       &nbsp; / <Category alt={category.name} href={category.name}>{category.name}</Category>&nbsp;
+       &nbsp; / <Category exact activeStyle={activeStyle} to={`/${category.name}`}>{category.name}</Category>&nbsp;
     </span>
   ));
   const allItemJsx = (
     <span key="allItem">
-      <Category alt="All Category" href="/all">All</Category>
+      <Category exact activeStyle={activeStyle} alt="All Category" to="/">All</Category>
     </span>
   );
   return (
@@ -39,8 +45,8 @@ const CategoryWrapper = styled.div`
   text-align: center;
 `;
 
-const Category = styled.a`
-  color: #800000;
+const Category = styled(NavLink)`
+  color: #00E;
   padding-left: 6px;
   &:hover {
   text-decoration: underline;

@@ -35,9 +35,10 @@ strong {
 }
 
 a {
-    color: #00E!important;
+    color: #00E;
     text-transform: capitalize;
     font-weight: normal;
+    text-decoration: none;
 }
 
 a:hover {

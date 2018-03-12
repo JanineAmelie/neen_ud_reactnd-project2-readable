@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -5,6 +6,7 @@ import IconButton from 'material-ui/IconButton';
 import Delete from 'material-ui/svg-icons/action/delete';
 import Edit from 'material-ui/svg-icons/editor/mode-edit';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 import VotingComponent from '../votingComponent/index';
 
@@ -36,17 +38,19 @@ const Post = ({
         <VotingComponent voteId={postId} voteHandler={voteHandler} voteScore={voteScore} />
         <PostContent>
           <Main>
-            <PostTitle className="clear-it"> {title} </PostTitle>
+            <PostTitle className="clear-it">
+              <CustomLink to={`/${category}/${postId}`}>{title}</CustomLink>
+            </PostTitle>
             <SubTitle className="clear-it">
               Submitted {momentObj.fromNow()} by &nbsp;
               <strong>{author}</strong> in &nbsp;
-              <a
+              <Link
                 onClick={() => setDetailId(postId)}
                 alt="category"
-                href={`/${category}`}
+                to={`/${category}`}
               >
                 {category}
-              </a>
+              </Link>
             </SubTitle>
             <CommentsSpan className="clear-it">
               [{commentCount} Comment(s)]
@@ -113,10 +117,6 @@ const PostContent = styled.div`
 const PostTitle = styled.h3`
   margin: 0;
   padding: 0;
-  &:hover {
-    text-decoration: underline;
-    cursor: pointer;
-  }
 `;
 
 const SubTitle = styled.span`
@@ -135,6 +135,15 @@ const Actions = styled.div`
 
 const CommentsSpan = styled.span`
   &:hover {
+    cursor: pointer;
+  }
+`;
+
+const CustomLink = styled(Link)`
+  color: #800000;
+  font-weight: bold;
+ &:hover {
+    text-decoration: underline;
     cursor: pointer;
   }
 `;

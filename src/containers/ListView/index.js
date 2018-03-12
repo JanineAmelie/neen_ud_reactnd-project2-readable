@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
+import { Redirect } from 'react-router-dom';
 import Post from '../../components/post/index';
 import HeaderTop from '../../components/headerTop/index';
 import { deletePost, getPostToBeEditedData, updatePostScore } from './actions';
@@ -11,6 +11,7 @@ import { toggleModal, setModalToShow } from '../Modal/actions';
 import { setSortMethod } from '../App/actions';
 import utils from '../../utilities';
 import { setDetailId } from '../DetailView/actions';
+import Loader from '../../components/loader/index';
 
 // @TODO: styled components classnames
 class ListView extends PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -27,43 +28,86 @@ class ListView extends PureComponent { // eslint-disable-line react/prefer-state
     this.props.setSortMethod(event.target.value);
   }
 
-  render() {
-    return (
-      <Wrapper className="List-View">
-        <HeaderTop
-          toggleModal={this.props.toggleModal}
-          modalToShow={this.props.modalToShow}
-          currentCategory={this.props.currentCategory}
-        />
-        <label htmlFor="sort"> Sort By: </label>
-        <select value={this.props.sortMethod} onChange={this.handleSortChange}>
-          <option value="timestamp"> Date</option>
-          <option value="voteScore"> Score</option>
-        </select>
+  isValidCategory(route, categories) {
+    if (route === '/') {
+      return true;
+    }
+    const routeWithoutSlash = route.replace('/', '');
+    return !!categories.includes(routeWithoutSlash);
+  }
+  currentCategory(route) {
+    if (route === '/') {
+      return 'all';
+    }
+    return route.replace('/', '');
+  }
 
-        <hr />
-        <Content>
-          {this.props.posts.length > 0 && this.props.posts.map((post) => (
-            <Post
-              setDetailId={this.props.setDetailId}
-              getPostToBeEditedData={this.props.getPostToBeEditedData}
-              modalToShow={this.props.modalToShow}
-              toggleModal={this.props.toggleModal}
-              deletePostHandler={this.props.deletePost}
-              voteHandler={this.props.updatePostScore}
-              key={post.id}
-              postId={post.id}
-              title={post.title}
-              timestamp={post.timestamp}
-              author={post.author}
-              category={post.category}
-              commentCount={post.commentCount}
-              voteScore={post.voteScore}
-            />
-          ))}
-        </Content>
-      </Wrapper>
-    );
+  render() {
+    // show spinner if content doesn't exist yet.
+    if (this.props.categories.length > 0 && this.props.posts.length > 0) {
+      // checks if valid category, if not redirect
+      if (!this.isValidCategory(this.props.location.pathname, this.props.categories)) {
+        return (
+          <Redirect
+            to={{
+              pathname: '/404',
+              state: { message: 'category does not exist' }, // how to access this in 404 page.
+            }}
+          />
+        );
+      }
+      // if valid category, filters posts according to the category route
+      let posts = [];
+      const theCategory = this.currentCategory(this.props.location.pathname);
+      if (theCategory === 'all') {
+        posts = this.props.posts;
+      } else {
+        posts = this.props.posts.filter((post) => post.category === theCategory);
+      }
+      return (
+        <Wrapper className="List-View">
+          <HeaderTop
+            toggleModal={this.props.toggleModal}
+            modalToShow={this.props.modalToShow}
+            currentCategory={theCategory}
+          />
+          { posts.length > 0 &&
+            <FilterDiv>
+              <label htmlFor="sort"> Sort By: </label>
+              <select value={this.props.sortMethod} onChange={this.handleSortChange}>
+                <option value="timestamp">Date</option>
+                <option value="voteScore">Score</option>
+              </select>
+            </FilterDiv>
+          }
+          <hr />
+          <Content>
+            { posts.length > 0 ?
+              posts.map((post) => (
+                <Post
+                  setDetailId={this.props.setDetailId}
+                  getPostToBeEditedData={this.props.getPostToBeEditedData}
+                  modalToShow={this.props.modalToShow}
+                  toggleModal={this.props.toggleModal}
+                  deletePostHandler={this.props.deletePost}
+                  voteHandler={this.props.updatePostScore}
+                  key={post.id}
+                  postId={post.id}
+                  title={post.title}
+                  timestamp={post.timestamp}
+                  author={post.author}
+                  category={post.category}
+                  commentCount={post.commentCount}
+                  voteScore={post.voteScore}
+                />
+              ))
+              : <NoPostsLabel> no posts in category: {theCategory} </NoPostsLabel>
+            }
+          </Content>
+        </Wrapper>
+      );
+    }
+    return <Loader />;
   }
 }
 
@@ -78,6 +122,8 @@ ListView.propTypes = {
   setSortMethod: PropTypes.func.isRequired,
   getPostToBeEditedData: PropTypes.func.isRequired,
   setDetailId: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired,
+  categories: PropTypes.array.isRequired,
 };
 // (state, props)
 
@@ -89,6 +135,7 @@ function mapStateToProps(state) {
     currentCategory: state.app.currentCategory,
     posts: sortedPosts,
     sortMethod: state.app.sortMethod,
+    categories: state.app.categories.map((item) => item.name),
   };
 }
 
@@ -119,5 +166,16 @@ const Wrapper = styled.div`
 const Content = styled.div`
   display: flex;
   flex-wrap: wrap;
-  padding: 0 0 100px 0;
+  padding: 0 32px 32px;
+`;
+
+const NoPostsLabel = styled.span`
+  width: 100%;
+  text-align: center;
+  padding: 3em 0 0 0;
+  font-size: 2em;
+`;
+
+const FilterDiv = styled.div`
+  padding: 0 32px;
 `;

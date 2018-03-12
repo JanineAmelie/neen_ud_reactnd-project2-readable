@@ -36,12 +36,16 @@ class App extends PureComponent { // eslint-disable-line react/prefer-stateless-
   }
 
   render() {
+    const { categoryNames, location, modalIsOpen } = this.props;
+
     return (
       <Wrapper>
         <MuiThemeProvider muiTheme={muiTheme}>
           <Container>
-            {this.props.categoryNames.length > 0 && <Categories className="categories" categories={this.props.categoryNames} />}
-            <Modal />
+            { location.pathname !== '/404' && <Modal modalIsOpen={modalIsOpen} />}
+            { categoryNames.length > 0 && location.pathname !== '/404' ?
+              <Categories className="categories" categories={categoryNames} /> : null
+            }
             <Switch>
               <Route exact path="/" component={ListView} />
               <Route exact path="/404" component={NoMatch} />
@@ -63,6 +67,7 @@ App.propTypes = {
   modalIsOpen: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
   currentDetail: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 // (state, props)
@@ -87,6 +92,7 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
 
 const Wrapper = styled.div`
   width: 100%;
+  height: 100%;
   display: block;
   position: relative;
   margin: 0 auto;
@@ -95,5 +101,5 @@ const Wrapper = styled.div`
 const Container = styled.div`
   width: 100%;
   height: 100%;
-`
+`;
 

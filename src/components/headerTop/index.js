@@ -47,7 +47,7 @@ const HeaderTop = ({ currentCategory, modalToShow, toggleModal }) =>  {
 
       <hr style={styles.hr} className="clear-it" />
     </Wrapper>
-  )
+  );
 };
 
 HeaderTop.defaultProps = {
