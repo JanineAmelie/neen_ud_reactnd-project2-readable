@@ -47,8 +47,8 @@ class Modal extends PureComponent { // eslint-disable-line react/prefer-stateles
   render() {
     return (
       <WrapperOverlay
+        className="modal"
         modalIsOpen={this.props.modalIsOpen}
-        className={this.props.modalIsOpen ? 'modal-open' : 'modal-closed'}
       >
         <ModalContent>
           {this.modalToRender(this.props.modalToShow)}

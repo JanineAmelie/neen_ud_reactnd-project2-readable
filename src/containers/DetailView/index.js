@@ -2,13 +2,13 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
+import { withRouter } from 'react-router';
 import Post from '../../components/post';
 import Comment from '../../components/comment';
 
 class DetailView extends PureComponent { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
-    console.log('this is the list view');
+    console.log('this is the detailView view');
   }
 
   render() {
@@ -60,8 +60,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DetailView);
-
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DetailView));
 
 const Wrapper = styled.div`
   width: 100%;

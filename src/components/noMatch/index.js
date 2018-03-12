@@ -2,9 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const NoMatch = () => {
-
   return (
-    <Wrapper>404</Wrapper>
+    <Wrapper><SpanTitle className="spanTitle">404</SpanTitle></Wrapper>
   );
 };
 
@@ -21,4 +20,11 @@ const Wrapper = styled.div`
   display: block;
   clear: both;
   margin: 16px 0 0;
+
+`;
+
+const SpanTitle = styled.span`
+width: 100%;
+height: 100%;
+   font-size: 10em;
 `;
