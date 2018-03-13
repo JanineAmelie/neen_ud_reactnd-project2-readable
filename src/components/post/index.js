@@ -99,12 +99,13 @@ const PostsWrapper = styled.div`
 `;
 
 const SubWrapper = styled.div`
-    background-color: #F0E0D6;
-    border: 1px solid #D9BFB7;
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    padding: 16px 0;
+  background-color: #F0E0D6;
+  border: 1px solid #D9BFB7;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-radius: 2px;
 `;
 
 const PostContent = styled.div`

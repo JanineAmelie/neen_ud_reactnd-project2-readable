@@ -23,7 +23,7 @@ const detailInitialState = {
 
 
 const detail = produce((draft, action) => {
-  if (!draft) {
+    if (!draft) {
     return detailInitialState;
   }
 

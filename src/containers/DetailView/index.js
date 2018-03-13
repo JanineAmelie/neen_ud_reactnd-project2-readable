@@ -21,13 +21,14 @@ const btnStyle = {
 };
 class DetailView extends PureComponent { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
+    this.props.resetDetailState();
     if (this.props.loadingDetail && this.props.currentDetail === '') {
       const theId = this.props.location.pathname.replace(/\/.+\//, '');
       this.props.fetchSinglePostDetail(theId);
     }
   }
   componentWillUnmount() {
-    this.props.resetDetailState();
+    // this.props.resetDetailState(); // Why doesn't this work :-( moved to didmount.
   }
 
   handleButtonClick() {
@@ -38,6 +39,7 @@ class DetailView extends PureComponent { // eslint-disable-line react/prefer-sta
   handleDelete(id) {
     console.log('handleDeleteTriggered', id);
     this.props.deletePost(id);
+    this.props.resetDetailState();
     this.props.setCurrentDetailDeleted();
   }
   render() {
@@ -102,7 +104,7 @@ class DetailView extends PureComponent { // eslint-disable-line react/prefer-sta
               </div>
             </SubmitCommentWrapper>
             <CommentsWrapper>
-              <h2> {currentDetail.voteScore} Comment(s):</h2>
+              <h2> {currentDetail.commentCount} Comment(s):</h2>
               {/*<Comment />*/}
               {/*<Comment />*/}
               {/*<Comment />*/}

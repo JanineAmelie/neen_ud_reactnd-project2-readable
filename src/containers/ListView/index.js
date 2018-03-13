@@ -10,7 +10,7 @@ import { deletePost, getPostToBeEditedData, updatePostScore } from './actions';
 import { toggleModal, setModalToShow } from '../Modal/actions';
 import { setSortMethod } from '../App/actions';
 import utils from '../../utilities';
-import { setDetailId } from '../DetailView/actions';
+import { resetDetailState, setDetailId } from '../DetailView/actions';
 import Loader from '../../components/loader/index';
 
 // @TODO: styled components classnames
@@ -129,6 +129,7 @@ ListView.propTypes = {
   location: PropTypes.object.isRequired,
   categories: PropTypes.array.isRequired,
   loadingPosts: PropTypes.bool.isRequired,
+  resetDetailState: PropTypes.func.isRequired,
 };
 // (state, props)
 
@@ -153,6 +154,7 @@ function mapDispatchToProps(dispatch) {
     setSortMethod: (payload) => dispatch(setSortMethod(payload)),
     getPostToBeEditedData: (payload) => dispatch(getPostToBeEditedData(payload)),
     setDetailId: (payload) => dispatch(setDetailId(payload)),
+    resetDetailState: () => dispatch(resetDetailState()),
   };
 }
 
