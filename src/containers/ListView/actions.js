@@ -86,10 +86,8 @@ export const receiveNewEditedPost = (newPost) => ({
   postToEdit: newPost.id,
 });
 
-export const submitEditedPost = (data) => (dispatch) => {
-  return (
-    putAPI
-      .editPost(data.id, data.title, data.body)
-      .then((data) => dispatch(receiveNewEditedPost(data)))
-  );
-};
+export const submitEditedPost = (data) => (dispatch) => (
+  putAPI
+    .editPost(data.id, data.title, data.body)
+    .then((data) => dispatch(receiveNewEditedPost(data)))
+);

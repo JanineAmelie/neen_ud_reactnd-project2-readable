@@ -1,7 +1,8 @@
+/* eslint-disable no-mixed-operators */
 
 const utils = {
   randomNumber() { // generates random 3 digit number
-    return Math.floor(Math.random()* (999 - 100 + 1) + 100);
+    return Math.floor(Math.random() * (999 - 100 + 1) + 100);
   },
   // sorts by category
   dynamicSort(property) {

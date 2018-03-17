@@ -38,7 +38,6 @@ class DetailView extends PureComponent { // eslint-disable-line react/prefer-sta
   }
 
   handleDelete(id) {
-    console.log('handleDeleteTriggered', id);
     this.props.deletePost(id);
     this.props.resetDetailState();
     this.props.setCurrentDetailDeleted();

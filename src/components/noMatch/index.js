@@ -1,15 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const NoMatch = () => {
-  return (
-    <Wrapper className="404">
-      <Item><img src="https://media.giphy.com/media/gxxlowyvtfS0M/giphy.gif" alt="404" /> </Item>
-      <Item className="clear-it"><Title className="title">404</Title></Item>
-      <Item className="clear-it"><Message>Page not found</Message></Item>
-    </Wrapper>
-  );
-};
+const NoMatch = () => (
+  <Wrapper className="404">
+    <Item><img src="https://media.giphy.com/media/gxxlowyvtfS0M/giphy.gif" alt="404" /> </Item>
+    <Item className="clear-it"><Title className="title">404</Title></Item>
+    <Item className="clear-it"><Message>Page not found</Message></Item>
+  </Wrapper>
+);
 
 NoMatch.propTypes = {
 };

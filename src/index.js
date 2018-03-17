@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-
+import { BrowserRouter } from 'react-router-dom';
 // import materialUi components
 
 import App from './containers/App/index';
 import registerServiceWorker from './registerServiceWorker';
 import configureStore from './store';
-import { BrowserRouter } from 'react-router-dom';
 import './global-styles.css';
 
 const store = configureStore();

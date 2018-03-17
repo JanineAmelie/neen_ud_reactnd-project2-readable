@@ -15,5 +15,4 @@ const Loader = () => (
   </ProgressSpinnerDiv>
 );
 
-
 export default Loader;
