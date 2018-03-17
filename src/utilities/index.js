@@ -24,6 +24,9 @@ const utils = {
     const cats = categories.map((item) => item.name);
     return cats[Math.floor(Math.random() * cats.length)];
   },
+  checkIfEmptyObject(obj) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+  },
 };
 
 export default utils;

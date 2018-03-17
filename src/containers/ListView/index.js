@@ -10,7 +10,7 @@ import { deletePost, getPostToBeEditedData, updatePostScore } from './actions';
 import { toggleModal, setModalToShow } from '../Modal/actions';
 import { setSortMethod } from '../App/actions';
 import utils from '../../utilities';
-import { resetDetailState, setDetailId } from '../DetailView/actions';
+import { resetDetailState } from '../DetailView/actions';
 import Loader from '../../components/loader/index';
 
 // @TODO: styled components classnames
@@ -87,7 +87,6 @@ class ListView extends PureComponent { // eslint-disable-line react/prefer-state
             { posts.length > 0 ?
               posts.map((post) => (
                 <Post
-                  setDetailId={this.props.setDetailId}
                   getPostToBeEditedData={this.props.getPostToBeEditedData}
                   modalToShow={this.props.modalToShow}
                   toggleModal={this.props.toggleModal}
@@ -126,7 +125,6 @@ ListView.propTypes = {
   sortMethod: PropTypes.string.isRequired,
   setSortMethod: PropTypes.func.isRequired,
   getPostToBeEditedData: PropTypes.func.isRequired,
-  setDetailId: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
   categories: PropTypes.array.isRequired,
   loadingPosts: PropTypes.bool.isRequired,
@@ -154,7 +152,6 @@ function mapDispatchToProps(dispatch) {
     modalToShow: (payload) => dispatch(setModalToShow(payload)),
     setSortMethod: (payload) => dispatch(setSortMethod(payload)),
     getPostToBeEditedData: (payload) => dispatch(getPostToBeEditedData(payload)),
-    setDetailId: (payload) => dispatch(setDetailId(payload)),
     resetDetailState: () => dispatch(resetDetailState()),
   };
 }

@@ -8,7 +8,7 @@ import { RaisedButton } from 'material-ui';
 import { default as CommentIcon } from 'material-ui/svg-icons/communication/comment';
 import { Redirect } from 'react-router-dom';
 import Post from '../../components/post';
-import Comment from '../../components/comment';
+// import Comment from '../../components/comment';
 import Loader from '../../components/loader/index';
 import { fetchSinglePostDetail, resetDetailState, setCurrentDetailDeleted, setDetailId } from './actions';
 import { setModalToShow, toggleModal } from '../Modal/actions';
@@ -21,14 +21,15 @@ const btnStyle = {
 };
 class DetailView extends PureComponent { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
-    this.props.resetDetailState();
-    if (this.props.loadingDetail && this.props.currentDetail === '') {
+    this.props.resetDetailState(); // reset state first.
+    if (this.props.loadingDetail && this.props.detailIsDeleted === '') {
       const theId = this.props.location.pathname.replace(/\/.+\//, '');
+      this.props.setDetailId(theId);
       this.props.fetchSinglePostDetail(theId);
     }
   }
   componentWillUnmount() {
-    // this.props.resetDetailState(); // Why doesn't this work :-( moved to didmount.
+    // this.props.resetDetailState(); // Why doesn't this work :-( moved to didMount.
   }
 
   handleButtonClick() {
@@ -44,73 +45,69 @@ class DetailView extends PureComponent { // eslint-disable-line react/prefer-sta
   }
   render() {
     const {
-      currentDetail,
+      detailIsDeleted,
       loadingDetail,
       getPostToBeEditedData,
       modalToShow,
       toggleModal,
       updatePostScore,
+      detailId,
+      posts,
     } = this.props;
 
-    if (!loadingDetail && currentDetail !== '') { // finished loading
-      // if (currentDetail.deleted) {
-      //   console.log('postIs deleted');
-      // } else if (currentDetail.error) {
-      //   console.log('has an error:', currentDetail.error);
-      // } else if (!currentDetail.category) {
-      //   console.log('isEmptyObject', currentDetail.category);
-      // }
+    if (detailIsDeleted) { // if deleted redirect,
+      return <Redirect to="/404" />;
     }
 
-    if (!loadingDetail && currentDetail !== '') {
-      if (currentDetail.deleted || currentDetail.error || !currentDetail.category) {
-        return <Redirect to="/404" />;
-      }
-      return (
-        <Wrapper className="Detail-View-wrapper">
-          <Content>
-            <h1>Viewing Post Detail</h1>
-            <Post
-              getPostToBeEditedData={getPostToBeEditedData}
-              modalToShow={modalToShow}
-              toggleModal={toggleModal}
-              deletePostHandler={(id) => this.handleDelete(id)}
-              voteHandler={updatePostScore}
-              key={currentDetail.id}
-              postId={currentDetail.id}
-              title={currentDetail.title}
-              timestamp={currentDetail.timestamp}
-              author={currentDetail.author}
-              category={currentDetail.category}
-              commentCount={currentDetail.commentCount}
-              voteScore={currentDetail.voteScore}
-            />
-            <PostContent>
+    if (!loadingDetail && detailIsDeleted !== '') { // if finished loading
+      if (posts.length > 0) {
+        const currentDetail = this.props.posts.find((post) => post.id === detailId);
+        return (
+          <Wrapper className="Detail-View-wrapper">
+            <Content>
+              <h1>Viewing Post Detail</h1>
+              <Post
+                getPostToBeEditedData={getPostToBeEditedData}
+                modalToShow={modalToShow}
+                toggleModal={toggleModal}
+                deletePostHandler={(id) => this.handleDelete(id)}
+                voteHandler={updatePostScore}
+                key={currentDetail.id}
+                postId={currentDetail.id}
+                title={currentDetail.title}
+                timestamp={currentDetail.timestamp}
+                author={currentDetail.author}
+                category={currentDetail.category}
+                commentCount={currentDetail.commentCount}
+                voteScore={currentDetail.voteScore}
+              />
+              <PostContent>
 
-            </PostContent>
-            <SubmitCommentWrapper>
-              <h2>Submit Comment</h2>
-              <div>
-                <RaisedButton
-                  label="Submit"
-                  labelPosition="before"
-                  primary
-                  icon={<CommentIcon />}
-                  onClick={() => this.handleButtonClick()}
-                  style={btnStyle}
-                />
-              </div>
-            </SubmitCommentWrapper>
-            <CommentsWrapper>
-              <h2> {currentDetail.commentCount} Comment(s):</h2>
-              {/*<Comment />*/}
-              {/*<Comment />*/}
-              {/*<Comment />*/}
-              {/*<Comment />*/}
-            </CommentsWrapper>
-          </Content>
-        </Wrapper>
-      );
+              </PostContent>
+              <SubmitCommentWrapper>
+                <h2>Submit Comment</h2>
+                <div>
+                  <RaisedButton
+                    label="Submit"
+                    labelPosition="before"
+                    primary
+                    icon={<CommentIcon />}
+                    onClick={() => this.handleButtonClick()}
+                    style={btnStyle}
+                  />
+                </div>
+              </SubmitCommentWrapper>
+              <CommentsWrapper>
+                <h2> {currentDetail.commentCount} Comment(s):</h2>
+                {/* <Comment /> */}
+                {/* <Comment /> */}
+                {/* <Comment /> */}
+                {/* <Comment /> */}
+              </CommentsWrapper>
+            </Content>
+          </Wrapper>
+        );
+      }
     }
     return <Loader />;
   }
@@ -118,12 +115,8 @@ class DetailView extends PureComponent { // eslint-disable-line react/prefer-sta
 
 DetailView.propTypes = {
   loadingDetail: PropTypes.bool.isRequired,
-  loadingComments: PropTypes.bool.isRequired,
+  // loadingComments: PropTypes.bool.isRequired,
   location: PropTypes.object.isRequired,
-  currentDetail: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-  ]),
   fetchSinglePostDetail: PropTypes.func.isRequired,
   resetDetailState: PropTypes.func.isRequired,
   modalToShow: PropTypes.func.isRequired,
@@ -132,23 +125,23 @@ DetailView.propTypes = {
   deletePost: PropTypes.func.isRequired,
   updatePostScore: PropTypes.func.isRequired,
   setCurrentDetailDeleted: PropTypes.func.isRequired,
+  setDetailId: PropTypes.func.isRequired,
+  posts: PropTypes.array,
+  detailIsDeleted: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+  ]),
+  detailId: PropTypes.string.isRequired,
 };
 
-function postToReference(posts, updatedPostId) {
-  return posts.findIndex((post) => post.id === updatedPostId);
-}
-
-// @TODO: refactor to refer to the other state
-function mapStateToProps(state, ownProps) {
-  // const theId = ownProps.location.pathname.replace(/\/.+\//, '');
-  // const indexOfPost = postToReference(state.posts.posts, theId);
-  // const thePost = state.posts.posts[indexOfPost];
-  // console.log('foo', thePost);
+function mapStateToProps(state) {
   return {
-    currentDetail: state.detail.currentDetail,
+    detailIsDeleted: state.detail.detailIsDeleted,
     loadingDetail: state.detail.loadingDetail,
     loadingComments: state.detail.loadingComments,
-    post: state.detail.currentDetail,
+    posts: state.posts.posts,
+    detailId: state.detail.detailId,
+    loadingPosts: state.posts.loadingPosts,
   };
 }
 

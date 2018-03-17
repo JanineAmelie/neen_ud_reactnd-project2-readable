@@ -11,7 +11,7 @@ const ProgressSpinnerDiv = styled.div`
 
 const Loader = () => (
   <ProgressSpinnerDiv>
-    <CircularProgress style={{ margin: '0 auto' }}  size={60} thickness={7} />
+    <CircularProgress style={{ margin: '0 auto' }} size={60} thickness={7} />
   </ProgressSpinnerDiv>
 );
 

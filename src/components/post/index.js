@@ -24,7 +24,6 @@ const Post = ({
   modalToShow,
   toggleModal,
   getPostToBeEditedData,
-  setDetailId,
 }) => {
   const momentObj = moment(timestamp);
   const handleEditClick = () => {
@@ -45,7 +44,6 @@ const Post = ({
               Submitted {momentObj.fromNow()} by &nbsp;
               <strong>{author}</strong> in &nbsp;
               <Link
-                onClick={() => setDetailId(postId)}
                 alt="category"
                 to={`/${category}`}
               >
@@ -83,7 +81,6 @@ Post.propTypes = {
   modalToShow: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   getPostToBeEditedData: PropTypes.func.isRequired,
-  setDetailId: PropTypes.func,
 };
 
 export default Post;
