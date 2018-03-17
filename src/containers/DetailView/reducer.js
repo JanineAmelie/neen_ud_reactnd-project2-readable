@@ -13,7 +13,6 @@ import utils from '../../utilities';
 const detailInitialState = {
   detailId: '',
   detailIsDeleted: '',
-  currentDetail: '',
   loadingDetail: true,
   loadingComments: true,
   comments: [],
@@ -45,6 +44,7 @@ const detail = produce((draft, action) => {
       }
       break;
     case RECEIVE_COMMENTS:
+      console.log('reducer:', action.payload)
       draft.comments = action.payload;
       break;
     case LOADING_DETAIL_COMPLETE:
@@ -57,7 +57,6 @@ const detail = produce((draft, action) => {
       draft.detailIsDeleted = true;
       break;
     case RESET_DETAIL_STATE: // There has to be a better way to reset state :( returning initial state doesn't work
-      draft.currentDetail = '';
       draft.loadingDetail = true;
       draft.loadingComments = true;
       draft.detailId = '';

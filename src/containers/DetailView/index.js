@@ -10,7 +10,13 @@ import { Redirect } from 'react-router-dom';
 import Post from '../../components/post';
 // import Comment from '../../components/comment';
 import Loader from '../../components/loader/index';
-import { fetchSinglePostDetail, resetDetailState, setCurrentDetailDeleted, setDetailId } from './actions';
+import {
+  fetchSinglePostDetail,
+  resetDetailState,
+  setCurrentDetailDeleted,
+  setDetailId,
+  fetchPostsComments,
+} from './actions';
 import { setModalToShow, toggleModal } from '../Modal/actions';
 import { deletePost, getPostToBeEditedData, updatePostScore } from '../ListView/actions';
 import { setSortMethod } from '../App/actions';
@@ -22,8 +28,8 @@ const btnStyle = {
 class DetailView extends PureComponent { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
     this.props.resetDetailState(); // reset state first.
+    const theId = this.props.location.pathname.replace(/\/.+\//, '');
     if (this.props.loadingDetail && this.props.detailIsDeleted === '') {
-      const theId = this.props.location.pathname.replace(/\/.+\//, '');
       this.props.setDetailId(theId);
       this.props.fetchSinglePostDetail(theId);
     }
@@ -81,7 +87,7 @@ class DetailView extends PureComponent { // eslint-disable-line react/prefer-sta
                 voteScore={currentDetail.voteScore}
               />
               <PostContent>
-
+                {currentDetail.body}
               </PostContent>
               <SubmitCommentWrapper>
                 <h2>Submit Comment</h2>
@@ -131,6 +137,7 @@ DetailView.propTypes = {
     PropTypes.bool,
   ]),
   detailId: PropTypes.string.isRequired,
+  fetchPostsComments: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -156,7 +163,7 @@ function mapDispatchToProps(dispatch) {
     getPostToBeEditedData: (payload) => dispatch(getPostToBeEditedData(payload)),
     setDetailId: (payload) => dispatch(setDetailId(payload)),
     setCurrentDetailDeleted: () => dispatch(setCurrentDetailDeleted()),
-
+    fetchPostsComments: (id) => dispatch(fetchPostsComments(id)),
   };
 }
 

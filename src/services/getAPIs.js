@@ -13,13 +13,6 @@ const headers = {
   Authorization: 'neen-authorized',
   'Content-Type': 'application/json',
 };
-//
-// export const getAllPosts = () => (
-//   fetch(
-//     `${api}/posts`,
-//     { headers }
-//   )
-// );
 
 export const getAllPosts = () => (
   fetch(
@@ -27,7 +20,6 @@ export const getAllPosts = () => (
     { headers }
   )
 );
-//  export const fetchTodos = () => fetch('/api/todos');
 
 export const getAllCategories = () => (
   fetch(
@@ -53,20 +45,19 @@ export const getSinglePost = (postId) => (
     .then((res) => res.json())
 );
 
-export const getSingleCommentDetails = (commentId) => {
+export const getSingleCommentDetails = (commentId) => (
   fetch(
     `${api}/comments/${commentId}`,
     { headers }
   )
     .then((res) => res.json())
-    .then((data) => console.log(data));
-};
+    .then((data) => console.log(data))
+);
 
-export const getPostComments = (postId) => {
+export const getPostComments = (postId) => (
   fetch(
     `${api}/posts/${postId}/comments`,
     { headers }
   )
     .then((res) => res.json())
-    .then((data) => console.log(data));
-};
+);
