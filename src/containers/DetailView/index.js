@@ -86,9 +86,7 @@ class DetailView extends PureComponent { // eslint-disable-line react/prefer-sta
               voteScore={currentDetail.voteScore}
             />
             <PostContent>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias at, autem doloremque dolores eius eveniet
-              labore magnam minima, minus molestias optio pariatur, placeat quos repellendus sed sequi tempora tenetur
-              vitae?
+
             </PostContent>
             <SubmitCommentWrapper>
               <h2>Submit Comment</h2>

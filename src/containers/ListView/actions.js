@@ -17,7 +17,7 @@ export const fetchInitialPosts = () => (dispatch) => (
   getAPI
     .getAllPosts()
     .then((res) => res.json())
-    .then((data) => dispatch(receivePosts(data)))
+    .then((data) => dispatch(receivePosts(data))) //  @TODO COMBINE
     .then(() => dispatch(finishedLoadingPosts()))
 );
 

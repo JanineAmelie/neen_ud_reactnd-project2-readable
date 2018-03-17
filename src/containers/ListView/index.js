@@ -21,6 +21,7 @@ class ListView extends PureComponent { // eslint-disable-line react/prefer-state
   }
 
   componentDidMount() {
+    this.props.resetDetailState();
   }
 
   handleSortChange(event) {

@@ -23,7 +23,7 @@ const detailInitialState = {
 
 
 const detail = produce((draft, action) => {
-    if (!draft) {
+  if (!draft) {
     return detailInitialState;
   }
 
@@ -44,7 +44,11 @@ const detail = produce((draft, action) => {
       draft.currentDetail.deleted = true;
       break;
     case RESET_DETAIL_STATE:
-      draft = detailInitialState;
+      console.log('foobar');
+      draft.currentDetail = '';
+      draft.loadingDetail = true;
+      draft.loadingComments = true;
+      draft.comments = [];
       break;
     default:
       return draft;
