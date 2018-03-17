@@ -1,41 +1,61 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import moment from 'moment';
 import IconButton from 'material-ui/IconButton';
 import Delete from 'material-ui/svg-icons/action/delete';
 import Edit from 'material-ui/svg-icons/editor/mode-edit';
 import VotingComponent from '../votingComponent/index';
 
-const Comment = () => (
-  <CommentWrapper>
-    <SubWrapper>
-      <VotingComponent />
-      <PostContent>
-        <Main>
-          <UserSpan className="clear-it"> <strong>user</strong></UserSpan>
-          <CommentContent className="clear-it">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Cum eaque esse harum ipsa ipsum magnam nulla, totam ut. Consectetur eaque earum id incidunt inventore
-            ipsa quae, quas ratione sunt vitae?
-          </CommentContent>
-        </Main>
-        <Actions>
-          <IconButton tooltip="Edit" >
-            <Edit />
-          </IconButton>
-          <IconButton tooltip="delete" >
-            <Delete />
-          </IconButton>
-        </Actions>
-      </PostContent>
-    </SubWrapper>
-  </CommentWrapper>
-);
-
-Comment.defaultProps = {
-};
+const Comment = ({
+  deleteCommentHandler,
+  editCommentHandler,
+  voteCommentHandler,
+  commentScore,
+  commentId,
+  body,
+  author,
+  timestamp,
+}) => {
+  const momentObj = moment(timestamp);
+  return (
+    <CommentWrapper>
+      <SubWrapper>
+        <VotingComponent
+          voteHandler={voteCommentHandler}
+          voteId={commentId}
+          voteScore={commentScore}
+        />
+        <PostContent>
+          <Main>
+            <UserSpan className="clear-it"> <strong>{author}</strong></UserSpan>
+            <TimeStamp className="clear-it"> Submitted {momentObj.fromNow()}</TimeStamp>
+            <CommentContent className="clear-it">
+              {body}
+            </CommentContent>
+          </Main>
+          <Actions>
+            <IconButton tooltip="Edit" >
+              <Edit onClick={() => editCommentHandler(commentId)} />
+            </IconButton>
+            <IconButton tooltip="delete" >
+              <Delete onClick={() => deleteCommentHandler(commentId)} />
+            </IconButton>
+          </Actions>
+        </PostContent>
+      </SubWrapper>
+    </CommentWrapper>
+)};
 
 Comment.propTypes = {
+  body: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  voteCommentHandler: PropTypes.func.isRequired,
+  commentScore: PropTypes.number.isRequired,
+  commentId: PropTypes.string.isRequired,
+  deleteCommentHandler: PropTypes.func.isRequired,
+  editCommentHandler: PropTypes.func.isRequired,
+  timestamp: PropTypes.number.isRequired,
 };
 
 export default Comment;
@@ -76,8 +96,16 @@ const UserSpan = styled.span`
   font-size: 1em;
 `;
 
+const TimeStamp = styled.span`
+  margin-bottom: 16px;
+  color: #6b6bea;
+  font-size: 14px;
+`;
+
 const Main = styled.div`
   order: 1;
+  width: 100%;
+  white-space: pre-wrap; 
 `;
 
 const Actions = styled.div`

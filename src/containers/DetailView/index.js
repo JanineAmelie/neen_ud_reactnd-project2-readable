@@ -8,14 +8,14 @@ import { RaisedButton } from 'material-ui';
 import { default as CommentIcon } from 'material-ui/svg-icons/communication/comment';
 import { Redirect } from 'react-router-dom';
 import Post from '../../components/post';
-// import Comment from '../../components/comment';
+import Comment from '../../components/comment';
 import Loader from '../../components/loader/index';
 import {
   fetchSinglePostDetail,
   resetDetailState,
   setCurrentDetailDeleted,
   setDetailId,
-  fetchPostsComments,
+  deleteComment,
 } from './actions';
 import { setModalToShow, toggleModal } from '../Modal/actions';
 import { deletePost, getPostToBeEditedData, updatePostScore } from '../ListView/actions';
@@ -48,6 +48,43 @@ class DetailView extends PureComponent { // eslint-disable-line react/prefer-sta
     this.props.resetDetailState();
     this.props.setCurrentDetailDeleted();
   }
+
+  voteCommentHandler(id, upOrDown) {
+    console.log('CommentVotedId', id, 'type:', upOrDown);
+  }
+
+  editCommentHandler(id) {
+    console.log('commentEdited', id);
+  }
+
+  deleteCommentHandler(id) {
+    console.log('commentDeleted', id);
+  }
+
+  addCommentHandler(data) {
+    console.log('addComment', data);
+  }
+
+  commentWhatToShow(commentLoadingState, comments) {
+    const self = this;
+    if (commentLoadingState) {
+      return <Loader />;
+    }
+
+    return comments.map((comment) => (
+      <Comment
+        key={comment.id}
+        timestamp={comment.timestamp}
+        author={comment.author}
+        body={comment.body}
+        commentId={comment.id}
+        commentScore={comment.voteScore}
+        voteCommentHandler={self.voteCommentHandler}
+        editCommentHandler={self.editCommentHandler}
+        deleteCommentHandler={(id) => this.props.deleteComment(id)}
+      />
+    ));
+  }
   render() {
     const {
       detailIsDeleted,
@@ -58,6 +95,8 @@ class DetailView extends PureComponent { // eslint-disable-line react/prefer-sta
       updatePostScore,
       detailId,
       posts,
+      loadingComments,
+      comments,
     } = this.props;
 
     if (detailIsDeleted) { // if deleted redirect,
@@ -103,11 +142,7 @@ class DetailView extends PureComponent { // eslint-disable-line react/prefer-sta
                 </div>
               </SubmitCommentWrapper>
               <CommentsWrapper>
-                <h2> {currentDetail.commentCount} Comment(s):</h2>
-                {/* <Comment /> */}
-                {/* <Comment /> */}
-                {/* <Comment /> */}
-                {/* <Comment /> */}
+                { this.commentWhatToShow(loadingComments, comments)}
               </CommentsWrapper>
             </Content>
           </Wrapper>
@@ -137,10 +172,13 @@ DetailView.propTypes = {
     PropTypes.bool,
   ]),
   detailId: PropTypes.string.isRequired,
-  fetchPostsComments: PropTypes.func.isRequired,
+  comments: PropTypes.array.isRequired,
+  loadingComments: PropTypes.bool.isRequired,
+  deleteComment: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
+  const onlyNonDeletedComments = state.detail.comments.filter((comment) => comment.deleted === false);
   return {
     detailIsDeleted: state.detail.detailIsDeleted,
     loadingDetail: state.detail.loadingDetail,
@@ -148,6 +186,7 @@ function mapStateToProps(state) {
     posts: state.posts.posts,
     detailId: state.detail.detailId,
     loadingPosts: state.posts.loadingPosts,
+    comments: onlyNonDeletedComments,
   };
 }
 
@@ -163,7 +202,7 @@ function mapDispatchToProps(dispatch) {
     getPostToBeEditedData: (payload) => dispatch(getPostToBeEditedData(payload)),
     setDetailId: (payload) => dispatch(setDetailId(payload)),
     setCurrentDetailDeleted: () => dispatch(setCurrentDetailDeleted()),
-    fetchPostsComments: (id) => dispatch(fetchPostsComments(id)),
+    deleteComment: (id) => dispatch(deleteComment(id)),
   };
 }
 

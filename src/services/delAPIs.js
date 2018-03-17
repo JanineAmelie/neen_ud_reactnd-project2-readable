@@ -14,7 +14,6 @@ export const deleteComment = (commentId) => (
     }
   )
     .then((res) => res.json())
-    .then((data) => console.log(data))
 );
 
 export const deletePost = (postId) => (
