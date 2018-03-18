@@ -1,19 +1,18 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
 import Clear from 'material-ui/svg-icons/content/clear';
 
 import SubmitNewPostForm from '../../components/forms/submitNewPost';
 import EditPostForm from '../../components/forms/editPost';
 import SubmitNewCommentForm from '../../components/forms/submitNewComment';
+import EditCommentForm from '../../components/forms/editComment';
 
 import { removeCurrentlyEditingPost, submitEditedPost, submitNewPost } from '../ListView/actions';
 import { setModalToShow, toggleModal } from './actions';
 import Loader from '../../components/loader';
-import { submitNewComment } from '../DetailView/actions';
+import { removeCurrentlyEditingComment, submitEditedComment, submitNewComment } from '../DetailView/actions';
 
 
 class Modal extends PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -22,6 +21,7 @@ class Modal extends PureComponent { // eslint-disable-line react/prefer-stateles
   handleModalClose() {
     this.props.setModalToShow('');
     this.props.removeCurrentlyEditingPost();
+    this.props.removeCurrentlyEditingComment();
     this.props.toggleModal();
   }
   modalToRender(modalToShow) {
@@ -44,8 +44,12 @@ class Modal extends PureComponent { // eslint-disable-line react/prefer-stateles
           postToEdit={this.props.postToEdit}
           submitEditedPost={this.props.submitEditedPost}
         />);
-      // case 'editCommentModal':
-      //   return (<EditCommentForm />);
+      case 'editCommentModal':
+        return (<EditCommentForm
+          handleModalClose={() => this.handleModalClose()}
+          commentToEdit={this.props.commentToEdit}
+          submitEditedComment={this.props.submitEditedComment}
+        />);
       default:
         return <Loader />;
     }
@@ -75,8 +79,11 @@ Modal.propTypes = {
   categories: PropTypes.array.isRequired,
   submitNewPost: PropTypes.func.isRequired,
   submitEditedPost: PropTypes.func.isRequired,
+  submitEditedComment: PropTypes.func.isRequired,
   postToEdit: PropTypes.object.isRequired,
+  commentToEdit: PropTypes.object.isRequired,
   removeCurrentlyEditingPost: PropTypes.func.isRequired,
+  removeCurrentlyEditingComment: PropTypes.func.isRequired,
   submitNewComment: PropTypes.func.isRequired,
   detailId: PropTypes.string,
 };
@@ -87,17 +94,20 @@ function mapStateToProps(state) {
     modalIsOpen: state.modal.modalIsOpen,
     modalToShow: state.modal.modalToShow,
     postToEdit: state.posts.currentlyEditingPost,
+    commentToEdit: state.detail.currentlyEditingComment,
     detailId: state.detail.detailId,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    removeCurrentlyEditingComment: () => dispatch(removeCurrentlyEditingComment()),
     removeCurrentlyEditingPost: () => dispatch(removeCurrentlyEditingPost()),
     setModalToShow: (payload) => dispatch(setModalToShow(payload)),
     toggleModal: () => dispatch(toggleModal()),
     submitNewPost: (payload) => dispatch(submitNewPost(payload)),
     submitEditedPost: (payload) => dispatch(submitEditedPost(payload)),
+    submitEditedComment: (payload) => dispatch(submitEditedComment(payload)),
     submitNewComment: (payload) => dispatch(submitNewComment(payload)),
   };
 }

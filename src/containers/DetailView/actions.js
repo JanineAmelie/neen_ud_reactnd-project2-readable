@@ -15,6 +15,9 @@ import {
   RECEIVE_NEW_COMMENT,
   RECEIVE_NEW_COMMENT_SCORE,
   SET_COMMENT_SORT_METHOD,
+  GET_COMMENT_TO_EDIT,
+  REMOVE_COMMENT_TO_EDIT,
+  RECEIVE_EDITED_COMMENT,
 } from './constants';
 import * as deleteAPI from '../../services/delAPIs';
 import * as postAPI from '../../services/postAPIs';
@@ -114,3 +117,27 @@ export const receiveNewCommentScore = (updatedComment) => ({
   newScore: updatedComment.voteScore,
   commentToEdit: updatedComment.id,
 });
+
+export const removeCurrentlyEditingComment = () => ({
+  type: REMOVE_COMMENT_TO_EDIT,
+});
+
+
+export const getCommentToBeEdited = (commentId) => ({
+  type: GET_COMMENT_TO_EDIT,
+  commentToEdit: commentId,
+});
+
+export const receiveNewEditedComment = (newComment) => ({
+  type: RECEIVE_EDITED_COMMENT,
+  payload: newComment,
+  commentToEdit: newComment.id,
+});
+
+export const submitEditedComment = (data) => (dispatch) => {
+  return (
+    putAPI
+      .editComment(data.id, data.timestamp, data.body)
+      .then((data) => dispatch(receiveNewEditedComment(data)))
+  );
+}

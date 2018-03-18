@@ -37,7 +37,7 @@ const CategoryWrapper = styled.div`
   margin: 0;
   position: relative;
   top: 0;
-  padding: 8px 8px;
+  padding: 8px 0;
   overflow-wrap: break-word;
   width: 100%;
   flex-wrap: wrap;

@@ -15,7 +15,10 @@ import {
   resetDetailState,
   setCurrentDetailDeleted,
   setDetailId,
-  deleteComment, updateCommentScore, setCommentSortMethod,
+  deleteComment,
+  updateCommentScore,
+  setCommentSortMethod,
+  getCommentToBeEdited,
 } from './actions';
 import { setModalToShow, toggleModal } from '../Modal/actions';
 import { deletePost, getPostToBeEditedData, updatePostScore } from '../ListView/actions';
@@ -61,7 +64,9 @@ class DetailView extends PureComponent { // eslint-disable-line react/prefer-sta
   }
 
   editCommentHandler(id) {
-    console.log('commentEdited', id);
+    this.props.getCommentToBeEdited(id);
+    this.props.modalToShow('editCommentModal');
+    this.props.toggleModal();
   }
 
   commentWhatToShow(commentLoadingState, comments) {
@@ -88,7 +93,7 @@ class DetailView extends PureComponent { // eslint-disable-line react/prefer-sta
             commentId={comment.id}
             commentScore={comment.voteScore}
             voteCommentHandler={(commentId, type) => this.props.updateCommentScore(commentId, type)}
-            editCommentHandler={this.editCommentHandler}
+            editCommentHandler={() => this.editCommentHandler(comment.id)}
             deleteCommentHandler={(commentId, parentId) => this.props.deleteComment(commentId, parentId)}
             parentId={comment.parentId}
           />))
@@ -188,6 +193,7 @@ DetailView.propTypes = {
   updateCommentScore: PropTypes.func.isRequired,
   commentSortMethod: PropTypes.string.isRequired,
   setCommentSortMethod: PropTypes.func.isRequired,
+  getCommentToBeEdited: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -220,6 +226,7 @@ function mapDispatchToProps(dispatch) {
     deleteComment: (commentId, parentId) => dispatch(deleteComment(commentId, parentId)),
     updateCommentScore: (commentId, type) => dispatch(updateCommentScore(commentId, type)),
     setCommentSortMethod: (payload) => dispatch(setCommentSortMethod(payload)),
+    getCommentToBeEdited: (payload) => dispatch(getCommentToBeEdited(payload)),
   };
 }
 

@@ -10,7 +10,11 @@ import {
   RECEIVE_COMMENTS,
   RECEIVE_DELETED_COMMENT,
   RECEIVE_NEW_COMMENT,
-  RECEIVE_NEW_COMMENT_SCORE, SET_COMMENT_SORT_METHOD,
+  RECEIVE_NEW_COMMENT_SCORE,
+  SET_COMMENT_SORT_METHOD,
+  GET_COMMENT_TO_EDIT,
+  REMOVE_COMMENT_TO_EDIT,
+  RECEIVE_EDITED_COMMENT,
 } from './constants';
 import utils from '../../utilities';
 
@@ -20,6 +24,7 @@ const detailInitialState = {
   loadingDetail: true,
   loadingComments: true,
   commentSortMethod: 'timestamp', //  voteScore
+  currentlyEditingComment: {},
   comments: [],
 };
 function commentToUpdate(comments, updatedCommentId) {
@@ -41,17 +46,12 @@ const detail = produce((draft, action) => {
   const indexOfCommentToUpdate = commentToUpdate(draft.comments, action.commentToEdit);
 
   switch (action.type) {
+    // ----------------- DETAIL  ----------------------//
     case SET_DETAIL_ID:
       draft.detailId = action.payload;
       break;
     case RECEIVE_DETAIL_POST:
-      if (utils.checkIfEmptyObject(action.payload)) {
-        console.log('is Empty object!!/post does not exist: ');
-        draft.detailIsDeleted = true;
-      } else {
-        console.log('Post is not deleted ');
-        draft.detailIsDeleted = false;
-      }
+      draft.detailIsDeleted = !!utils.checkIfEmptyObject(action.payload);
       break;
     case LOADING_DETAIL_COMPLETE:
       draft.loadingDetail = false;
@@ -60,7 +60,7 @@ const detail = produce((draft, action) => {
       draft.detailIsDeleted = true;
       break;
     case RESET_DETAIL_STATE:
-      //  @TODO: There has to be a better way to reset state :( returning initial state doesn't work
+      //  @TODO: There has to be a better way to reset state :( returning initial state doesn't work??
       draft.loadingDetail = true;
       draft.loadingComments = true;
       draft.detailId = '';
@@ -68,7 +68,7 @@ const detail = produce((draft, action) => {
       draft.comments = [];
       break;
 
-      // COMMENTS @TODO: Move to own reducer
+    // ----------------- COMMENTS  ----------------------// @TODO: Move to own reducer
     case SET_COMMENT_SORT_METHOD:
       draft.commentSortMethod = action.payload;
       break;
@@ -87,6 +87,15 @@ const detail = produce((draft, action) => {
       break;
     case RECEIVE_NEW_COMMENT_SCORE:
       draft.comments[indexOfCommentToUpdate].voteScore = action.newScore;
+      break;
+    case GET_COMMENT_TO_EDIT:
+      draft.currentlyEditingComment = draft.comments[indexOfCommentToUpdate];
+      break;
+    case REMOVE_COMMENT_TO_EDIT:
+      draft.currentlyEditingComment = {};
+      break;
+    case RECEIVE_EDITED_COMMENT:
+      draft.comments[indexOfCommentToUpdate] = action.payload;
       break;
     default:
       return draft;

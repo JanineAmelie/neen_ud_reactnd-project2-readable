@@ -18,7 +18,7 @@ export const editComment = (commentId, timeStamp, newText) => {
       {
         headers,
         method: 'PUT',
-        body: JSON.stringify( newData ),
+        body: JSON.stringify(newData),
       }
     )
       .then((res) => res.json())
