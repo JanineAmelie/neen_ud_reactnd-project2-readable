@@ -1,4 +1,4 @@
-/* eslint-disable import/no-named-default */
+/* eslint-disable import/no-named-default,jsx-a11y/label-has-for */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -15,17 +15,23 @@ import {
   resetDetailState,
   setCurrentDetailDeleted,
   setDetailId,
-  deleteComment,
+  deleteComment, updateCommentScore, setCommentSortMethod,
 } from './actions';
 import { setModalToShow, toggleModal } from '../Modal/actions';
 import { deletePost, getPostToBeEditedData, updatePostScore } from '../ListView/actions';
 import { setSortMethod } from '../App/actions';
+import utils from '../../utilities/index';
 
 
 const btnStyle = {
   maxWidth: '125px',
 };
 class DetailView extends PureComponent { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+    this.handleCommentSortChange = this.handleCommentSortChange.bind(this);
+  }
+
   componentDidMount() {
     this.props.resetDetailState(); // reset state first.
     const theId = this.props.location.pathname.replace(/\/.+\//, '');
@@ -49,41 +55,46 @@ class DetailView extends PureComponent { // eslint-disable-line react/prefer-sta
     this.props.setCurrentDetailDeleted();
   }
 
-  voteCommentHandler(id, upOrDown) {
-    console.log('CommentVotedId', id, 'type:', upOrDown);
+  handleCommentSortChange(event) {
+    event.preventDefault();
+    this.props.setCommentSortMethod(event.target.value);
   }
 
   editCommentHandler(id) {
     console.log('commentEdited', id);
   }
 
-  deleteCommentHandler(id) {
-    console.log('commentDeleted', id);
-  }
-
-  addCommentHandler(data) {
-    console.log('addComment', data);
-  }
-
   commentWhatToShow(commentLoadingState, comments) {
-    const self = this;
     if (commentLoadingState) {
       return <Loader />;
     }
 
-    return comments.map((comment) => (
-      <Comment
-        key={comment.id}
-        timestamp={comment.timestamp}
-        author={comment.author}
-        body={comment.body}
-        commentId={comment.id}
-        commentScore={comment.voteScore}
-        voteCommentHandler={self.voteCommentHandler}
-        editCommentHandler={self.editCommentHandler}
-        deleteCommentHandler={(id) => this.props.deleteComment(id)}
-      />
-    ));
+    return (
+      <div className="clear-it">
+        <h3> {comments.length} Comment(s) </h3>
+        <FilterDiv>
+          <label htmlFor="sort"> Sort By: </label>
+          <select value={this.props.commentSortMethod} onChange={this.handleCommentSortChange}>
+            <option value="timestamp">Date</option>
+            <option value="voteScore">Score</option>
+          </select>
+        </FilterDiv>
+        {comments.map((comment) => (
+          <Comment
+            key={comment.id}
+            timestamp={comment.timestamp}
+            author={comment.author}
+            body={comment.body}
+            commentId={comment.id}
+            commentScore={comment.voteScore}
+            voteCommentHandler={(commentId, type) => this.props.updateCommentScore(commentId, type)}
+            editCommentHandler={this.editCommentHandler}
+            deleteCommentHandler={(commentId, parentId) => this.props.deleteComment(commentId, parentId)}
+            parentId={comment.parentId}
+          />))
+        }
+      </div>
+    );
   }
   render() {
     const {
@@ -155,7 +166,6 @@ class DetailView extends PureComponent { // eslint-disable-line react/prefer-sta
 
 DetailView.propTypes = {
   loadingDetail: PropTypes.bool.isRequired,
-  // loadingComments: PropTypes.bool.isRequired,
   location: PropTypes.object.isRequired,
   fetchSinglePostDetail: PropTypes.func.isRequired,
   resetDetailState: PropTypes.func.isRequired,
@@ -175,10 +185,14 @@ DetailView.propTypes = {
   comments: PropTypes.array.isRequired,
   loadingComments: PropTypes.bool.isRequired,
   deleteComment: PropTypes.func.isRequired,
+  updateCommentScore: PropTypes.func.isRequired,
+  commentSortMethod: PropTypes.string.isRequired,
+  setCommentSortMethod: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
   const onlyNonDeletedComments = state.detail.comments.filter((comment) => comment.deleted === false);
+  const sortedComments = onlyNonDeletedComments.sort(utils.dynamicSort(state.detail.commentSortMethod)).reverse();
   return {
     detailIsDeleted: state.detail.detailIsDeleted,
     loadingDetail: state.detail.loadingDetail,
@@ -186,7 +200,8 @@ function mapStateToProps(state) {
     posts: state.posts.posts,
     detailId: state.detail.detailId,
     loadingPosts: state.posts.loadingPosts,
-    comments: onlyNonDeletedComments,
+    comments: sortedComments,
+    commentSortMethod: state.detail.commentSortMethod,
   };
 }
 
@@ -202,7 +217,9 @@ function mapDispatchToProps(dispatch) {
     getPostToBeEditedData: (payload) => dispatch(getPostToBeEditedData(payload)),
     setDetailId: (payload) => dispatch(setDetailId(payload)),
     setCurrentDetailDeleted: () => dispatch(setCurrentDetailDeleted()),
-    deleteComment: (id) => dispatch(deleteComment(id)),
+    deleteComment: (commentId, parentId) => dispatch(deleteComment(commentId, parentId)),
+    updateCommentScore: (commentId, type) => dispatch(updateCommentScore(commentId, type)),
+    setCommentSortMethod: (payload) => dispatch(setCommentSortMethod(payload)),
   };
 }
 
@@ -248,4 +265,7 @@ const CommentsWrapper = styled.div`
 const SubmitCommentWrapper = styled.div`
   width: 100%;
   order: 2;
+`;
+
+const FilterDiv = styled.div`
 `;

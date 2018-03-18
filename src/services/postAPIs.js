@@ -34,7 +34,7 @@ export const votePost = (postId, type) => (
 );
 
 
-export const voteComment = (commentId, type) => {
+export const voteComment = (commentId, type) => (
   fetch(
     `${api}/comments/${commentId}`,
     {
@@ -46,8 +46,7 @@ export const voteComment = (commentId, type) => {
     }
   )
     .then((res) => res.json())
-    .then((data) => console.log(data.voteScore));
-};
+);
 
 export const addNewPost = (title, body, author, category) => {
   const newData = {
@@ -75,7 +74,6 @@ export const addNewPost = (title, body, author, category) => {
 
 
 export const addNewCommentToPost = (theId, theAuthor, body) => {
-  console.log('parentId:', theId, 'author:', theAuthor, 'body:', body);
   const newData = {
     id: nanoid(),
     timestamp: Date.now(),
@@ -83,15 +81,15 @@ export const addNewCommentToPost = (theId, theAuthor, body) => {
     author: theAuthor,
     parentId: theId,
   };
-
-  fetch(
-    `${api}/comments`,
-    {
-      headers,
-      method: 'POST',
-      body: JSON.stringify( newData ),
-    }
-  )
-    .then((res) => res.json())
-    .then((data) => console.log(data));
+  return (
+    fetch(
+      `${api}/comments`,
+      {
+        headers,
+        method: 'POST',
+        body: JSON.stringify( newData ),
+      }
+    )
+      .then((res) => res.json())
+  );
 };

@@ -7,6 +7,8 @@ import {
   GET_POST_TO_EDIT,
   REMOVE_POST_TO_EDIT,
   FINISHED_LOADING_POSTS,
+  INCREMENT_POST_COMMENT_COUNT,
+  DECREMENT_POST_COMMENT_COUNT,
 } from './constants';
 import * as getAPI from '../../services/getAPIs';
 import * as postAPI from '../../services/postAPIs';
@@ -91,3 +93,13 @@ export const submitEditedPost = (data) => (dispatch) => (
     .editPost(data.id, data.title, data.body)
     .then((data) => dispatch(receiveNewEditedPost(data)))
 );
+
+export const incrementCommentCount = (id) => ({
+  type: INCREMENT_POST_COMMENT_COUNT,
+  postToEdit: id,
+});
+
+export const decrementCommentCount = (id) => ({
+  type: DECREMENT_POST_COMMENT_COUNT,
+  postToEdit: id,
+});

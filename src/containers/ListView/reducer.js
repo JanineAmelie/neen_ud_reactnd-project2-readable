@@ -13,6 +13,8 @@ import {
   REMOVE_POST_TO_EDIT,
   RECEIVE_EDITED_POST,
   FINISHED_LOADING_POSTS,
+  DECREMENT_POST_COMMENT_COUNT,
+  INCREMENT_POST_COMMENT_COUNT,
 } from './constants';
 
 function postToUpdate(posts, updatedPostId) {
@@ -29,9 +31,7 @@ const posts = produce((draft, action) => {
   if (!draft) {
     return postsInitialState;
   }
-
   const indexOfPostToUpdate = postToUpdate(draft.posts, action.postToEdit);
-
   switch (action.type) {
     case RECEIVE_INITIAL_POSTS:
       draft.posts = action.posts;
@@ -56,6 +56,12 @@ const posts = produce((draft, action) => {
       break;
     case FINISHED_LOADING_POSTS:
       draft.loadingPosts = false;
+      break;
+    case INCREMENT_POST_COMMENT_COUNT:
+      draft.posts[indexOfPostToUpdate].commentCount += 1;
+      break;
+    case DECREMENT_POST_COMMENT_COUNT:
+      draft.posts[indexOfPostToUpdate].commentCount -= 1;
       break;
     default:
       return draft;

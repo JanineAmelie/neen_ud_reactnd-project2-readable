@@ -9,6 +9,8 @@ import {
   LOADING_COMMENTS_COMPLETE,
   RECEIVE_COMMENTS,
   RECEIVE_DELETED_COMMENT,
+  RECEIVE_NEW_COMMENT,
+  RECEIVE_NEW_COMMENT_SCORE, SET_COMMENT_SORT_METHOD,
 } from './constants';
 import utils from '../../utilities';
 
@@ -17,6 +19,7 @@ const detailInitialState = {
   detailIsDeleted: '',
   loadingDetail: true,
   loadingComments: true,
+  commentSortMethod: 'timestamp', //  voteScore
   comments: [],
 };
 function commentToUpdate(comments, updatedCommentId) {
@@ -56,7 +59,8 @@ const detail = produce((draft, action) => {
     case SET_CURRENT_DETAIL_DELETED:
       draft.detailIsDeleted = true;
       break;
-    case RESET_DETAIL_STATE: // There has to be a better way to reset state :( returning initial state doesn't work
+    case RESET_DETAIL_STATE:
+      //  @TODO: There has to be a better way to reset state :( returning initial state doesn't work
       draft.loadingDetail = true;
       draft.loadingComments = true;
       draft.detailId = '';
@@ -65,7 +69,12 @@ const detail = produce((draft, action) => {
       break;
 
       // COMMENTS @TODO: Move to own reducer
-
+    case SET_COMMENT_SORT_METHOD:
+      draft.commentSortMethod = action.payload;
+      break;
+    case RECEIVE_NEW_COMMENT:
+      draft.comments.push(action.payload);
+      break;
     case LOADING_COMMENTS_COMPLETE:
       draft.loadingComments = false;
       break;
@@ -76,7 +85,9 @@ const detail = produce((draft, action) => {
     case RECEIVE_DELETED_COMMENT:
       draft.comments[indexOfCommentToUpdate].deleted = true;
       break;
-
+    case RECEIVE_NEW_COMMENT_SCORE:
+      draft.comments[indexOfCommentToUpdate].voteScore = action.newScore;
+      break;
     default:
       return draft;
   }

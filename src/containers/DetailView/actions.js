@@ -6,14 +6,21 @@ import {
   RECEIVE_DETAIL_POST,
   RESET_DETAIL_STATE,
   LOADING_DETAIL_COMPLETE,
-  LOADING_COMMENTS_COMPLETE,
-  RECEIVE_COMMENTS,
   SET_CURRENT_DETAIL_DELETED,
 
   // comment constants
+  LOADING_COMMENTS_COMPLETE,
+  RECEIVE_COMMENTS,
   RECEIVE_DELETED_COMMENT,
+  RECEIVE_NEW_COMMENT,
+  RECEIVE_NEW_COMMENT_SCORE,
+  SET_COMMENT_SORT_METHOD,
 } from './constants';
 import * as deleteAPI from '../../services/delAPIs';
+import * as postAPI from '../../services/postAPIs';
+import * as putAPI from '../../services/putAPIs';
+
+import { incrementCommentCount, decrementCommentCount } from '../../containers/ListView/actions';
 
 export const setDetailId = (payload) => ({
   type: SET_DETAIL_ID,
@@ -49,6 +56,10 @@ export const setCurrentDetailDeleted = () => ({
 });
 
 //  --------- COMMENTS ACTIONS & THUNKS -----------  //
+export const setCommentSortMethod = (payload) => ({
+  type: SET_COMMENT_SORT_METHOD,
+  payload,
+});
 
 export const setLoadingCommentsComplete = () => ({
   type: LOADING_COMMENTS_COMPLETE,
@@ -67,13 +78,39 @@ export const fetchPostsComments = (id) => (dispatch) => (
     .then(dispatch(setLoadingCommentsComplete()))
 );
 
-export const deleteComment = (commentId) => (dispatch) => (
+export const deleteComment = (commentId, parentId) => (dispatch) => (
   deleteAPI
     .deleteComment(commentId)
     .then((data) => dispatch(receiveDeletedComment(data)))
+    .then(() => dispatch(decrementCommentCount(parentId)))
 );
 
 export const receiveDeletedComment = (updatedPost) => ({
   type: RECEIVE_DELETED_COMMENT,
   commentToEdit: updatedPost.id,
+});
+
+export const receiveNewComment = (newPost) => ({
+  type: RECEIVE_NEW_COMMENT,
+  payload: newPost,
+});
+
+export const submitNewComment = (data) => (dispatch) => (
+  postAPI
+    .addNewCommentToPost(data.parentId, data.author, data.body)
+    .then((data) => dispatch(receiveNewComment(data)))
+    .then(() => dispatch(incrementCommentCount(data.parentId)))
+);
+
+export const updateCommentScore = (commentId, type) => (dispatch) => (
+  postAPI
+    .voteComment(commentId, type)
+    .then((data) => dispatch(receiveNewCommentScore(data)))
+);
+
+
+export const receiveNewCommentScore = (updatedComment) => ({
+  type: RECEIVE_NEW_COMMENT_SCORE,
+  newScore: updatedComment.voteScore,
+  commentToEdit: updatedComment.id,
 });

@@ -8,10 +8,12 @@ import Clear from 'material-ui/svg-icons/content/clear';
 
 import SubmitNewPostForm from '../../components/forms/submitNewPost';
 import EditPostForm from '../../components/forms/editPost';
+import SubmitNewCommentForm from '../../components/forms/submitNewComment';
 
 import { removeCurrentlyEditingPost, submitEditedPost, submitNewPost } from '../ListView/actions';
 import { setModalToShow, toggleModal } from './actions';
 import Loader from '../../components/loader';
+import { submitNewComment } from '../DetailView/actions';
 
 
 class Modal extends PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -30,8 +32,12 @@ class Modal extends PureComponent { // eslint-disable-line react/prefer-stateles
           handleModalClose={() => this.handleModalClose()}
           submitNewPost={(data) => this.props.submitNewPost(data)}
         />);
-      // case 'submitCommentModal':
-      //   return (<SubmitNewCommentForm />);
+      case 'submitCommentModal':
+        return (<SubmitNewCommentForm
+          handleModalClose={() => this.handleModalClose()}
+          parentId={this.props.detailId}
+          submitNewComment={(data) => this.props.submitNewComment(data)}
+        />);
       case 'editPostModal':
         return (<EditPostForm
           handleModalClose={() => this.handleModalClose()}
@@ -71,6 +77,8 @@ Modal.propTypes = {
   submitEditedPost: PropTypes.func.isRequired,
   postToEdit: PropTypes.object.isRequired,
   removeCurrentlyEditingPost: PropTypes.func.isRequired,
+  submitNewComment: PropTypes.func.isRequired,
+  detailId: PropTypes.string,
 };
 
 function mapStateToProps(state) {
@@ -79,6 +87,7 @@ function mapStateToProps(state) {
     modalIsOpen: state.modal.modalIsOpen,
     modalToShow: state.modal.modalToShow,
     postToEdit: state.posts.currentlyEditingPost,
+    detailId: state.detail.detailId,
   };
 }
 
@@ -89,6 +98,7 @@ function mapDispatchToProps(dispatch) {
     toggleModal: () => dispatch(toggleModal()),
     submitNewPost: (payload) => dispatch(submitNewPost(payload)),
     submitEditedPost: (payload) => dispatch(submitEditedPost(payload)),
+    submitNewComment: (payload) => dispatch(submitNewComment(payload)),
   };
 }
 

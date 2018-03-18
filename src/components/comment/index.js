@@ -16,6 +16,7 @@ const Comment = ({
   body,
   author,
   timestamp,
+  parentId,
 }) => {
   const momentObj = moment(timestamp);
   return (
@@ -39,7 +40,7 @@ const Comment = ({
               <Edit onClick={() => editCommentHandler(commentId)} />
             </IconButton>
             <IconButton tooltip="delete" >
-              <Delete onClick={() => deleteCommentHandler(commentId)} />
+              <Delete onClick={() => deleteCommentHandler(commentId, parentId)} />
             </IconButton>
           </Actions>
         </PostContent>
@@ -56,6 +57,7 @@ Comment.propTypes = {
   deleteCommentHandler: PropTypes.func.isRequired,
   editCommentHandler: PropTypes.func.isRequired,
   timestamp: PropTypes.number.isRequired,
+  parentId: PropTypes.string.isRequired,
 };
 
 export default Comment;
