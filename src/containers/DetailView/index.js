@@ -27,7 +27,7 @@ import utils from '../../utilities/index';
 
 
 const btnStyle = {
-  maxWidth: '125px',
+  margin: '16px 0 0',
 };
 class DetailView extends PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -76,14 +76,6 @@ class DetailView extends PureComponent { // eslint-disable-line react/prefer-sta
 
     return (
       <div className="clear-it">
-        <h3> {comments.length} Comment(s) </h3>
-        <FilterDiv>
-          <label htmlFor="sort"> Sort By: </label>
-          <select value={this.props.commentSortMethod} onChange={this.handleCommentSortChange}>
-            <option value="timestamp">Date</option>
-            <option value="voteScore">Score</option>
-          </select>
-        </FilterDiv>
         {comments.map((comment) => (
           <Comment
             key={comment.id}
@@ -125,38 +117,47 @@ class DetailView extends PureComponent { // eslint-disable-line react/prefer-sta
         return (
           <Wrapper className="Detail-View-wrapper">
             <Content>
-              <h1>Viewing Post Detail</h1>
-              <Post
-                getPostToBeEditedData={getPostToBeEditedData}
-                modalToShow={modalToShow}
-                toggleModal={toggleModal}
-                deletePostHandler={(id) => this.handleDelete(id)}
-                voteHandler={updatePostScore}
-                key={currentDetail.id}
-                postId={currentDetail.id}
-                title={currentDetail.title}
-                timestamp={currentDetail.timestamp}
-                author={currentDetail.author}
-                category={currentDetail.category}
-                commentCount={currentDetail.commentCount}
-                voteScore={currentDetail.voteScore}
-              />
-              <PostContent>
-                {currentDetail.body}
-              </PostContent>
-              <SubmitCommentWrapper>
-                <h2>Submit Comment</h2>
-                <div>
-                  <RaisedButton
-                    label="Submit"
-                    labelPosition="before"
-                    primary
-                    icon={<CommentIcon />}
-                    onClick={() => this.handleButtonClick()}
-                    style={btnStyle}
-                  />
-                </div>
+              <TopPart className="clear-it">
+                <Post
+                  getPostToBeEditedData={getPostToBeEditedData}
+                  modalToShow={modalToShow}
+                  toggleModal={toggleModal}
+                  deletePostHandler={(id) => this.handleDelete(id)}
+                  voteHandler={updatePostScore}
+                  key={currentDetail.id}
+                  postId={currentDetail.id}
+                  title={currentDetail.title}
+                  timestamp={currentDetail.timestamp}
+                  author={currentDetail.author}
+                  category={currentDetail.category}
+                  commentCount={currentDetail.commentCount}
+                  voteScore={currentDetail.voteScore}
+                />
+                <PostContent>
+                  {currentDetail.body}
+                </PostContent>
+              </TopPart>
+              <SubmitCommentWrapper className="clear-it">
+                <RaisedButton
+                  label="Submit a comment"
+                  labelPosition="before"
+                  primary
+                  icon={<CommentIcon />}
+                  onClick={() => this.handleButtonClick()}
+                  style={btnStyle}
+                />
               </SubmitCommentWrapper>
+
+              <CommentsInfo className="clear-it">
+                <CommentsHeader className="clear-it"> {comments.length} Comment(s) </CommentsHeader>
+                <FilterDiv className="clear-it">
+                  <label htmlFor="sort"> Sorted By: </label>
+                  <select style={{ appearance: 'none' }} value={this.props.commentSortMethod} onChange={this.handleCommentSortChange}>
+                    <option value="timestamp">Date</option>
+                    <option value="voteScore">Score</option>
+                  </select>
+                </FilterDiv>
+              </CommentsInfo>
               <CommentsWrapper>
                 { this.commentWhatToShow(loadingComments, comments)}
               </CommentsWrapper>
@@ -238,6 +239,7 @@ const Wrapper = styled.div`
   display: block;
   position: relative;
   margin: 0 auto;
+  padding: 0 0 32px;
 `;
 
 const Content = styled.div`
@@ -249,11 +251,8 @@ const Content = styled.div`
 `;
 
 const PostContent = styled.div`
-    border: 1px solid #D9BFB7;
     overflow-wrap: break-word;
     padding: 40px 16px 40px;
-    background-color: aliceblue;
-    width: 100%;
     margin: 0 auto;
     clear: both;
     display: block;
@@ -267,6 +266,10 @@ const CommentsWrapper = styled.div`
   order: 3;
   align-content: flex-start;
   align-items: flex-start;
+  padding: 16px 32px;
+  border-radius: 2px 2px 0px 0px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 5px;
 `;
 
 const SubmitCommentWrapper = styled.div`
@@ -275,4 +278,26 @@ const SubmitCommentWrapper = styled.div`
 `;
 
 const FilterDiv = styled.div`
+  font-size: 12px;
+`;
+
+const TopPart = styled.div`
+    border-radius: 2px 2px 0px 0px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 5px;
+    padding: 0 32px;
+    margin: 16px 0 0;
+`;
+
+const CommentsHeader = styled.h3`
+  margin: 0;
+  padding: 0;
+  color: #4B5862;
+  font-size: 16px;
+  font-weight: normal;
+`;
+
+const CommentsInfo = styled.div`
+  padding: 0 22px;
+  margin: 16px 0 0;
 `;

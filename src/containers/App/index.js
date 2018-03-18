@@ -18,8 +18,7 @@ import DetailView from '../DetailView/index';
 // @TODO: Move
 const muiTheme = getMuiTheme({
   palette: {
-    textColor: '#800000',
-    primary1Color: '#117743',
+    primary1Color: '#2196F3',
   },
   appBar: {
     height: 100,

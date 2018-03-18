@@ -2,14 +2,16 @@ html {
     height: 100%;
 }
 body {
-    min-height: 100%!important;
+  min-height: 100%!important;
   height: 100%;
   margin: 0;
-  font-family: sans-serif;
-  background: #FFFFEE;
-  background: linear-gradient(to bottom, rgba(248,215,180,1) 0%,rgba(255,255,240,1) 100%);
-  background-repeat: no-repeat;
-  color: #800000;
+  font-family: 'Roboto', sans-serif;
+  background: #eeeeee;
+  color: #66696F;
+}
+
+h2 {
+    font-weight: normal;
 }
 #root {
     min-height: 100%!important;
@@ -27,20 +29,9 @@ hr {
     display: block;
     clear: both;
 }
-
-strong {
-    color: #117743!important;
-    text-decoration: none!important;
-    font-weight: 700;
-}
-
 a {
-    color: #00E;
-    text-transform: capitalize;
-    font-weight: normal;
     text-decoration: none;
 }
-
 a:hover {
     cursor: pointer;
     text-decoration: underline;
@@ -145,4 +136,29 @@ input[type="text"]:disabled {
 
 .disabled-label {
     color: #b9b9ad;
+}
+
+select {
+    border: none;
+    background-color: transparent;
+}
+
+select option{
+    background-color: transparent !important;
+    border: 1px solid #e4e4e4;
+    color: #000;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+select::-ms-expand
+{
+    display: none;
+}
+select
+{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
 }

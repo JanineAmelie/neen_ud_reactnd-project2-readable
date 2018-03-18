@@ -135,14 +135,11 @@ const WrapperOverlay = styled.div`
 const ModalContent = styled.div`
   width: 80%;
   height: 600px;
-  background: white;
   border-radius: 5px;
   z-index: 900;
   display: flex;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  background: linear-gradient(to bottom, rgba(248,215,180,1) 0%,rgba(255,255,240,1) 100%);
-  background-repeat: no-repeat;
-  color: #800000;
+  background-color: #eeeeee;
 `;
 
 const CloseBtn = styled(Clear)`
@@ -161,10 +158,10 @@ const CloseBtnContainer = styled.div`
   z-index: 999;
   opacity: 1;
   color: #fff!important;
-  height: 69px;
+  height: 70px;
   width: 64px;
   display: flex;
-  background-color: #117743;
+  background-color: #2196F3;
   align-items: center;
   align-content: center;
 `;

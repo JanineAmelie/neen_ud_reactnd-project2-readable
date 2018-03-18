@@ -82,7 +82,6 @@ class ListView extends PureComponent { // eslint-disable-line react/prefer-state
               </select>
             </FilterDiv>
           }
-          <hr />
           <Content>
             { posts.length > 0 ?
               posts.map((post) => (
@@ -170,15 +169,24 @@ const Content = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 0 32px 32px;
+  margin: 0 auto;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.16);
+  background-color: #fff;
+  width: 90%;
+  max-width: 1024px;
 `;
 
 const NoPostsLabel = styled.span`
   width: 100%;
   text-align: center;
-  padding: 3em 0 0 0;
-  font-size: 2em;
+  padding: 2em 0 0;
 `;
 
 const FilterDiv = styled.div`
-  padding: 0 32px;
+  padding: 8px 32px;
+  width: 90%;
+  max-width: 1024px;
+  margin: 0 auto;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.16);
+  background-color: #fff;
 `;

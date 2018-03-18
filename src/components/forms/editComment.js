@@ -119,7 +119,7 @@ const TopWrapper = styled.div`
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
-  background-color: #117743;
+  background-color: #006FD2;
   color: #fff;
   padding: 16px;
   margin-bottom: 48px;

@@ -11,7 +11,7 @@ const VotingComponent = ({ voteId, voteHandler, voteScore }) => {
   return (
     <VoteWrapper>
       <VoteUp onClick={handleVoteClick('upVote')} className="clear-it"> ▲ </VoteUp>
-      <span className="clear-it"> {voteScore} </span>
+      <VoteScore className="clear-it"> {voteScore} </VoteScore>
       <VoteDown onClick={handleVoteClick('downVote')} className="clear-it"> ▼ </VoteDown>
     </VoteWrapper>
   );
@@ -28,11 +28,12 @@ export default VotingComponent;
 
 const VoteWrapper = styled.div`
   order:1;
-  flex-basis: 64px;
+  flex-basis: 40px;
   display: flex;
   flex-wrap: wrap;
   text-align: center;
-  align-content: center;
+  margin-right: 16px;
+  align-content: flex-start;
 `;
 
 const Vote = styled.span`
@@ -47,4 +48,9 @@ const VoteUp = styled(Vote)`
 
 const VoteDown = styled(Vote)`
   color: #6b6bea;
+`;
+
+const VoteScore = styled.span`
+  font-size: 12px;
+  color: #a6a6a6;
 `;

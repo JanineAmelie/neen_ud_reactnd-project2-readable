@@ -29,7 +29,7 @@ const Comment = ({
         />
         <PostContent>
           <Main>
-            <UserSpan className="clear-it"> <strong>{author}</strong></UserSpan>
+            <UserSpan className="clear-it"> {author}</UserSpan>
             <TimeStamp className="clear-it"> Submitted {momentObj.fromNow()}</TimeStamp>
             <CommentContent className="clear-it">
               {body}
@@ -37,10 +37,10 @@ const Comment = ({
           </Main>
           <Actions>
             <IconButton tooltip="Edit" >
-              <Edit onClick={() => editCommentHandler(commentId)} />
+              <Edit color="#888888" onClick={() => editCommentHandler(commentId)} />
             </IconButton>
             <IconButton tooltip="delete" >
-              <Delete onClick={() => deleteCommentHandler(commentId, parentId)} />
+              <Delete color="#888888" onClick={() => deleteCommentHandler(commentId, parentId)} />
             </IconButton>
           </Actions>
         </PostContent>
@@ -70,6 +70,7 @@ const CommentWrapper = styled.div`
   display: block;
   clear: both;
   margin: 16px 0;
+  border-bottom: 1px solid #f2f2f2
 `;
 
 const SubWrapper = styled.div`
@@ -83,25 +84,24 @@ const PostContent = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  background-color: #F0E0D6;
-  border: 1px solid #D9BFB7;
-  padding: 16px;
+  padding: 0 16px 16px 0;
 `;
 
 const CommentContent = styled.p`
   width: 100%;
   margin: 0;
-  padding: 0;
+  font-size: 14px;
+  padding: 8px 0 8px 4px;
 `;
 
 const UserSpan = styled.span`
   font-size: 1em;
+  color: #4f8ef7;
 `;
 
 const TimeStamp = styled.span`
-  margin-bottom: 16px;
-  color: #6b6bea;
-  font-size: 14px;
+  font-size: 12px;
+  color: rgba(33, 150, 243, 0.7)
 `;
 
 const Main = styled.div`

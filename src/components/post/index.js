@@ -42,7 +42,7 @@ const Post = ({
             </PostTitle>
             <SubTitle className="clear-it">
               Submitted {momentObj.fromNow()} by &nbsp;
-              <strong>{author}</strong> in &nbsp;
+              <AuthorText>{author}</AuthorText> in &nbsp;
               <Link
                 alt="category"
                 to={`/${category}`}
@@ -51,15 +51,15 @@ const Post = ({
               </Link>
             </SubTitle>
             <CommentsSpan className="clear-it">
-              [{commentCount} Comment(s)]
+              {commentCount} Comment(s)
             </CommentsSpan>
           </Main>
           <Actions>
             <IconButton tooltip="Edit" >
-              <Edit onClick={() => handleEditClick()} />
+              <Edit color="#888888" onClick={() => handleEditClick()} />
             </IconButton>
             <IconButton tooltip="delete" >
-              <Delete onClick={() => deletePostHandler(postId)} />
+              <Delete color="#888888" onClick={() => deletePostHandler(postId)} />
             </IconButton>
           </Actions>
         </PostContent>
@@ -93,11 +93,11 @@ const PostsWrapper = styled.div`
   display: block;
   clear: both;
   margin: 16px 0 0;
+  background-color: #fff;
+  border-bottom: 1px solid #f2f2f2;
 `;
 
 const SubWrapper = styled.div`
-  background-color: #F0E0D6;
-  border: 1px solid #D9BFB7;
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
@@ -118,7 +118,8 @@ const PostTitle = styled.h3`
 `;
 
 const SubTitle = styled.span`
-  font-size: 1em;
+  font-size: 12px;
+  color: #b3b3b3;
 `;
 
 const Main = styled.div`
@@ -132,16 +133,21 @@ const Actions = styled.div`
 `;
 
 const CommentsSpan = styled.span`
-  &:hover {
-    cursor: pointer;
-  }
+  color: #4F8EF7;
+  font-weight: 700;
+  font-size: 13px;
 `;
 
 const CustomLink = styled(Link)`
-  color: #800000;
-  font-weight: bold;
+  color: #4f8ef7;
+  font-size: 18px;
+  font-weight: normal;
  &:hover {
     text-decoration: underline;
     cursor: pointer;
   }
+`;
+const AuthorText = styled.strong`
+  color: #4f8ef7;
+  font-weight: 400;
 `;
