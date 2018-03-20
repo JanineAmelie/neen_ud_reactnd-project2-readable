@@ -99,7 +99,12 @@ class SubmitNewPostForm extends React.Component {
 
             <li>
               <label htmlFor="category"> Category: </label>
-              <select required value={this.state.category} onChange={this.handleCategoryChange}>
+              <select
+                className="new-post-select"
+                required
+                value={this.state.category}
+                onChange={this.handleCategoryChange}
+              >
                 {this.props.categories.map((category) => (
                   <option key={category.name} value={category.name}>
                     {category.name}

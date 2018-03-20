@@ -7,6 +7,7 @@ import Delete from 'material-ui/svg-icons/action/delete';
 import Edit from 'material-ui/svg-icons/editor/mode-edit';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import utils from '../../utilities/';
 
 import VotingComponent from '../votingComponent/index';
 
@@ -44,6 +45,7 @@ const Post = ({
               Submitted {momentObj.fromNow()} by &nbsp;
               <AuthorText>{author}</AuthorText> in &nbsp;
               <Link
+                style={{ color: 'orange' }}
                 alt="category"
                 to={`/${category}`}
               >
@@ -51,7 +53,7 @@ const Post = ({
               </Link>
             </SubTitle>
             <CommentsSpan className="clear-it">
-              {commentCount} Comment(s)
+              {commentCount} {utils.returnCommentText(commentCount)}
             </CommentsSpan>
           </Main>
           <Actions>

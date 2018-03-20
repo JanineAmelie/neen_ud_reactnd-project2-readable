@@ -101,7 +101,7 @@ const UserSpan = styled.span`
 
 const TimeStamp = styled.span`
   font-size: 12px;
-  color: rgba(33, 150, 243, 0.7)
+  color: #b3b3b3;
 `;
 
 const Main = styled.div`

@@ -4,6 +4,8 @@ import styled from 'styled-components';
 const ProgressSpinnerDiv = styled.div`
   width: 100%;
   height: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
   display: flex;
   align-content: center;
   align-items: center;

@@ -28,6 +28,14 @@ const utils = {
   checkIfEmptyObject(obj) {
     return Object.keys(obj).length === 0 && obj.constructor === Object;
   },
+  returnCommentText(length) {
+    if (length === 0) {
+      return 'comments';
+    } else if (length === 1) {
+      return 'comment';
+    }
+    return 'comments';
+  },
 };
 
 export default utils;

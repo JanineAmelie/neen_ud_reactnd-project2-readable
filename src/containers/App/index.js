@@ -15,6 +15,7 @@ import ListView from '../ListView/index';
 import Modal from '../Modal/index';
 import NoMatch from '../../components/noMatch';
 import DetailView from '../DetailView/index';
+import Footer from '../../components/footer/index';
 // @TODO: Move
 const muiTheme = getMuiTheme({
   palette: {
@@ -51,6 +52,7 @@ class App extends PureComponent { // eslint-disable-line react/prefer-stateless-
               <Route exact path="/:category/:post_id" component={DetailView} />
               <Route component={NoMatch} />
             </Switch>
+            <Footer />
           </Container>
         </MuiThemeProvider>
       </Wrapper>
